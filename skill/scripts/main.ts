@@ -1,6 +1,6 @@
-#!/usr/bin/env -S npx tsx
+#!/usr/bin/env node
 /**
- * @s-aiproviders/skill — entry point.
+ * @s-aiproviders/cli — entry point.
  *
  * Subcommands:
  *   chat          stream a chat completion to stdout
@@ -11,10 +11,10 @@
  *      or : bun  skill/scripts/main.ts <cmd> [flags]
  */
 
-import { parseArgs } from './args';
-import { runChat } from './commands/chat';
-import { runImage } from './commands/image';
-import { runList } from './commands/list';
+import { parseArgs } from './args.js';
+import { runChat } from './commands/chat.js';
+import { runImage } from './commands/image.js';
+import { runList } from './commands/list.js';
 
 async function main(): Promise<number> {
   const [cmd, ...rest] = process.argv.slice(2);
@@ -44,7 +44,9 @@ function printUsage(): void {
   console.log(`S-AIProviders — unified AI provider CLI
 
 Usage:
-  tsx scripts/main.ts <command> [flags]
+  npx s-aiproviders <command> [flags]
+  s-aiproviders <command> [flags]                # if installed globally
+  tsx skill/scripts/main.ts <command> [flags]    # dev mode (from this repo)
 
 Commands:
   chat              Stream a chat completion (text)

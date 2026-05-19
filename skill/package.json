@@ -1,18 +1,53 @@
 {
-  "name": "@s-aiproviders/skill",
+  "name": "@s-aiproviders/cli",
   "version": "0.1.0",
-  "private": true,
-  "description": "Portable Skill CLI wrapping @s-aiproviders/core (chat / image / list-presets).",
+  "description": "S-AIProviders CLI (chat / image / list-presets). Bundles SKILL.md so AI agents can read it after install.",
+  "license": "MIT",
   "type": "module",
   "bin": {
-    "s-aiproviders": "./scripts/main.ts"
+    "s-aiproviders": "./dist/main.js"
   },
+  "main": "./dist/main.js",
+  "files": [
+    "dist",
+    "SKILL.md",
+    "references",
+    "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "CHANGELOG.zh.md",
+    "LICENSE"
+  ],
   "scripts": {
+    "build": "tsc -p tsconfig.json && node ../scripts/postbuild-shebang.cjs dist/main.js",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
     "chat": "tsx scripts/main.ts chat",
     "image": "tsx scripts/main.ts image",
     "list": "tsx scripts/main.ts list-presets",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "prepublishOnly": "pnpm clean && pnpm build"
   },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "cli",
+    "skill",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "deepseek",
+    "kimi",
+    "qwen",
+    "doubao",
+    "zhipu",
+    "tokenplan",
+    "image-generation",
+    "streaming"
+  ],
   "dependencies": {
     "@s-aiproviders/core": "workspace:*"
   },

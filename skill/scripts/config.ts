@@ -35,8 +35,8 @@ import {
   type ProviderProtocol,
 } from '@s-aiproviders/core';
 
-import type { ParsedArgs } from './args';
-import { getStr } from './args';
+import type { ParsedArgs } from './args.js';
+import { getStr } from './args.js';
 
 export interface ResolvedConfig {
   /** preset id, e.g. "tokenplan" */

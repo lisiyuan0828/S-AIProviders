@@ -1,9 +1,9 @@
-import type { ProviderPreset } from '../types';
-import { CHAT_PRESETS } from './chat';
-import { IMAGE_PRESETS } from './image';
+import type { ProviderPreset } from '../types.js';
+import { CHAT_PRESETS } from './chat.js';
+import { IMAGE_PRESETS } from './image.js';
 
-export * from './chat';
-export * from './image';
+export * from './chat.js';
+export * from './image.js';
 
 /** All built-in presets — chat first, then image. The order is the suggested UI order. */
 export const BUILTIN_PRESETS: ProviderPreset[] = [...CHAT_PRESETS, ...IMAGE_PRESETS];

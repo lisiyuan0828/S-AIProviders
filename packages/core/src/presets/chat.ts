@@ -5,7 +5,7 @@
  * Adding a new provider here is purely additive — no other code changes.
  */
 
-import type { ProviderPreset } from '../types';
+import type { ProviderPreset } from '../types.js';
 
 /**
  * ⭐ Tencent Cloud Token Plan (recommended default)

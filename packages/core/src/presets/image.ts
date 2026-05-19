@@ -10,7 +10,7 @@
  * `generateImage()` (see ../image-gen).
  */
 
-import type { ProviderPreset } from '../types';
+import type { ProviderPreset } from '../types.js';
 
 /** OpenAI DALL·E / gpt-image-1 (OpenAI Images API) */
 export const OPENAI_IMAGE_PRESET: ProviderPreset = {

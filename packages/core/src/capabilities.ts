@@ -2,7 +2,7 @@
  * Capability helpers + cross-provider model picker.
  */
 
-import type { ModelCapability, ModelInfo } from './types';
+import type { ModelCapability, ModelInfo } from './types.js';
 
 /** Does the model expose a given capability? Missing capabilities → treated as ['text']. */
 export function modelHasCapability(model: ModelInfo, cap: ModelCapability): boolean {

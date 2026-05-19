@@ -13,8 +13,8 @@
  *  - Final usage: usage.prompt_tokens / completion_tokens
  */
 
-import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types';
-import { parseSse } from './sse';
+import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types.js';
+import { parseSse } from './sse.js';
 
 export class OpenAICompatibleProvider implements IProvider {
   readonly protocol = 'openai-compatible' as const;

@@ -10,8 +10,8 @@
 import path from 'node:path';
 import { generateImage } from '@s-aiproviders/core/image-gen';
 
-import { type ParsedArgs, getBool, getStr } from '../args';
-import { resolveConfig } from '../config';
+import { type ParsedArgs, getBool, getStr } from '../args.js';
+import { resolveConfig } from '../config.js';
 
 export async function runImage(args: ParsedArgs): Promise<number> {
   const cfg = resolveConfig({ args });

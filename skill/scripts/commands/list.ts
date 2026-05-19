@@ -3,7 +3,7 @@
  */
 
 import { BUILTIN_PRESETS } from '@s-aiproviders/core';
-import { type ParsedArgs, getBool, getStr } from '../args';
+import { type ParsedArgs, getBool, getStr } from '../args.js';
 
 export function runList(args: ParsedArgs): number {
   const kindFilter = getStr(args, ['kind']);

@@ -25,13 +25,13 @@ export type {
   ModelInfo,
   ProviderKind,
   ProviderPreset,
-} from './types';
+} from './types.js';
 
 /* —— Protocol implementations —— */
-export { OpenAICompatibleProvider } from './openai-compatible';
-export { AnthropicProvider } from './anthropic';
-export { GeminiProvider } from './gemini';
-export { createProvider } from './factory';
+export { OpenAICompatibleProvider } from './openai-compatible.js';
+export { AnthropicProvider } from './anthropic.js';
+export { GeminiProvider } from './gemini.js';
+export { createProvider } from './factory.js';
 
 /* —— Presets —— */
 export {
@@ -52,19 +52,19 @@ export {
   IMAGE_PRESETS,
   BUILTIN_PRESETS,
   findPreset,
-} from './presets';
+} from './presets/index.js';
 
 /* —— Capability helpers —— */
 export {
   modelHasCapability,
   isMultimodal,
   pickModel,
-} from './capabilities';
-export type { ProviderLike, PickModelOptions, PickedModel } from './capabilities';
+} from './capabilities.js';
+export type { ProviderLike, PickModelOptions, PickedModel } from './capabilities.js';
 
 /* —— SSE primitive (advanced consumers) —— */
-export { parseSse } from './sse';
-export type { SseEvent } from './sse';
+export { parseSse } from './sse.js';
+export type { SseEvent } from './sse.js';
 
 /* —— Version —— */
 export const KIT_VERSION = '0.1.0' as const;

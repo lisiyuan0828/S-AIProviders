@@ -9,8 +9,8 @@
  *  - usageMetadata: promptTokenCount / candidatesTokenCount
  */
 
-import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types';
-import { parseSse } from './sse';
+import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types.js';
+import { parseSse } from './sse.js';
 
 export class GeminiProvider implements IProvider {
   readonly protocol = 'gemini' as const;

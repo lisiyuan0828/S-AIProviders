@@ -10,8 +10,8 @@
  *  - message_delta.usage.output_tokens → completion-token increment
  */
 
-import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types';
-import { parseSse } from './sse';
+import type { ChatChunk, ChatRequest, IProvider, ProviderInitConfig } from './types.js';
+import { parseSse } from './sse.js';
 
 export class AnthropicProvider implements IProvider {
   readonly protocol = 'anthropic' as const;

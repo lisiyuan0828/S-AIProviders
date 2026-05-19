@@ -11,8 +11,8 @@
 import fs from 'node:fs';
 import { createProvider, type ChatMessageInput } from '@s-aiproviders/core';
 
-import { type ParsedArgs, getBool, getNum, getStr } from '../args';
-import { resolveConfig } from '../config';
+import { type ParsedArgs, getBool, getNum, getStr } from '../args.js';
+import { resolveConfig } from '../config.js';
 
 export async function runChat(args: ParsedArgs): Promise<number> {
   const cfg = resolveConfig({ args });

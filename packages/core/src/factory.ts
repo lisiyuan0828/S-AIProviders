@@ -1,7 +1,7 @@
-import type { IProvider, ProviderInitConfig, ProviderProtocol } from './types';
-import { OpenAICompatibleProvider } from './openai-compatible';
-import { AnthropicProvider } from './anthropic';
-import { GeminiProvider } from './gemini';
+import type { IProvider, ProviderInitConfig, ProviderProtocol } from './types.js';
+import { OpenAICompatibleProvider } from './openai-compatible.js';
+import { AnthropicProvider } from './anthropic.js';
+import { GeminiProvider } from './gemini.js';
 
 export function createProvider(protocol: ProviderProtocol, cfg: ProviderInitConfig): IProvider {
   switch (protocol) {
