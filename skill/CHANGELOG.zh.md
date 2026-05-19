@@ -68,5 +68,5 @@
 - `1` —— 运行时错误（网络 / HTTP / 腾讯云异步任务超时 / 生图接口空数据 / 缺 prompt body）
 - `2` —— 用户错误（未知 provider、缺 apiKey、参数非法、未知子命令）
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/cli-v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/cli-v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/cli-v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/cli-v0.1.0

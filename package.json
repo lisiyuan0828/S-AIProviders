@@ -2,14 +2,26 @@
   "name": "s-aiproviders",
   "version": "0.1.0",
   "private": true,
-  "description": "Unified AI provider abstraction (chat + image-gen) — usable as an npm package or as a portable Skill.",
+  "description": "Unified AI provider abstraction (chat + image-gen) — usable as an npm package or as a portable Skill / CLI.",
+  "license": "MIT",
+  "author": "lisiyuan0828",
+  "homepage": "https://github.com/lisiyuan0828/S-AIProviders#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisiyuan0828/S-AIProviders.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lisiyuan0828/S-AIProviders/issues"
+  },
   "type": "module",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "skill"
   ],
   "scripts": {
-    "build": "pnpm -r --filter './packages/*' build",
-    "typecheck": "pnpm -r --filter './packages/*' typecheck",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r typecheck",
+    "clean": "pnpm -r clean",
     "skill:chat": "tsx skill/scripts/main.ts chat",
     "skill:image": "tsx skill/scripts/main.ts image",
     "skill:list": "tsx skill/scripts/main.ts list-presets"

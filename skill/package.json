@@ -3,6 +3,16 @@
   "version": "0.1.0",
   "description": "S-AIProviders CLI (chat / image / list-presets). Bundles SKILL.md so AI agents can read it after install.",
   "license": "MIT",
+  "author": "lisiyuan0828",
+  "homepage": "https://github.com/lisiyuan0828/S-AIProviders/tree/main/skill#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lisiyuan0828/S-AIProviders.git",
+    "directory": "skill"
+  },
+  "bugs": {
+    "url": "https://github.com/lisiyuan0828/S-AIProviders/issues"
+  },
   "type": "module",
   "bin": {
     "s-aiproviders": "./dist/main.js"

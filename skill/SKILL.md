@@ -3,7 +3,7 @@ name: s-aiproviders
 description: "Unified AI provider abstraction. One Skill, every model — OpenAI / Anthropic / Gemini / DeepSeek / Kimi / Qwen / Doubao / Zhipu / Tencent Token Plan / Hunyuan / DALL·E / CogView. Streaming chat, image generation, model auto-pick. Use this Skill whenever the user wants to call an LLM or generate an image without wiring up a fresh SDK in their project."
 version: 0.1.0
 metadata:
-  homepage: https://github.com/<your-org>/S-AIProviders
+  homepage: https://github.com/lisiyuan0828/S-AIProviders
   requires:
     anyBins:
       - tsx

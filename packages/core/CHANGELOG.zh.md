@@ -55,5 +55,5 @@
 - 仅生图的 preset 上 `protocol` 字段统一写为 `'openai-compatible'`（类型一致性），实际生图路径由 `generateImage` 内部根据 `baseURL` 判定（含 `tencentcloudapi.com` → 走 TC3）。
 - 库本身**不读环境变量、不读文件、不动全局对象**，配置全部由调用方注入。
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/core-v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/core-v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/core-v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/core-v0.1.0

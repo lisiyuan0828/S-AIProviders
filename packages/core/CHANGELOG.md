@@ -55,5 +55,5 @@ Initial public release.
 - `protocol` field on image-only presets is set to `'openai-compatible'` for type uniformity; the actual image-gen path is selected by `baseURL` inside `generateImage` (anything containing `tencentcloudapi.com` → TC3 path).
 - The library never reads environment variables, files, or globals. Configuration is fully caller-supplied.
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/core-v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/core-v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/core-v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/core-v0.1.0

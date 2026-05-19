@@ -91,5 +91,5 @@ Initial public release. Two packages ship together:
 - TypeScript strict mode (`noUncheckedIndexedAccess`, `verbatimModuleSyntax: false`) on top of NodeNext-compatible explicit `.js` import suffixes.
 - `scripts/postbuild-shebang.cjs` re-prepends the shebang and `chmod +x` after tsc compilation.
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/v0.1.0

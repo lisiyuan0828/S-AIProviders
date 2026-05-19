@@ -68,5 +68,5 @@ Initial public release.
 - `1` — runtime error (network / HTTP / Tencent Cloud async timeout / image API empty data / missing prompt body)
 - `2` — user error (unknown provider, missing apiKey, invalid flag value, unknown subcommand)
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/cli-v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/cli-v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/cli-v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/cli-v0.1.0

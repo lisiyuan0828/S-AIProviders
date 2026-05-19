@@ -90,5 +90,5 @@
 - TypeScript 严格模式（`noUncheckedIndexedAccess`、`verbatimModuleSyntax: false`），并配合 NodeNext 兼容的显式 `.js` 后缀 import。
 - `scripts/postbuild-shebang.cjs` 在 tsc 编译后回填 shebang + `chmod +x`。
 
-[Unreleased]: https://github.com/<your-org>/S-AIProviders/compare/v0.1.0...HEAD
-[0.1.0]: https://github.com/<your-org>/S-AIProviders/releases/tag/v0.1.0
+[Unreleased]: https://github.com/lisiyuan0828/S-AIProviders/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/lisiyuan0828/S-AIProviders/releases/tag/v0.1.0
