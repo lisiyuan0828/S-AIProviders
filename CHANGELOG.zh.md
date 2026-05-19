@@ -9,7 +9,7 @@
 
 本文件汇总 monorepo 的整体演进。包级变更见各自的 CHANGELOG：
 
-- [`packages/core/CHANGELOG.md`](./packages/core/CHANGELOG.md) — `@s-aiproviders/core`
+- [`packages/core/CHANGELOG.md`](./packages/core/CHANGELOG.md) — `s-aiproviders-core`
 - [`skill/CHANGELOG.md`](./skill/CHANGELOG.md) — `@s-aiproviders/cli`
 
 ## 分类约定
@@ -44,12 +44,12 @@
 
 | 包 | 版本 |
 |---|---|
-| `@s-aiproviders/core` | 0.1.0 |
+| `s-aiproviders-core` | 0.1.0 |
 | `@s-aiproviders/cli`  | 0.1.0 |
 
 ### 新增
 
-#### `@s-aiproviders/core`
+#### `s-aiproviders-core`
 - `IProvider` 抽象 + 三种协议实现：
   - `OpenAICompatibleProvider` —— 覆盖 OpenAI、腾讯 Token Plan、DeepSeek、Kimi、通义、豆包、智谱以及任何 OpenAI 兼容网关。
   - `AnthropicProvider` —— Claude messages API，自动从消息列表中抽出 `system` 内容。
@@ -59,7 +59,7 @@
 - `parseSse` —— 可复用的 SSE 原语（基于 `ReadableStream<Uint8Array>`）。
 - 13 个内置 `ProviderPreset` 常量（9 个对话 + 4 个生图），以及 `BUILTIN_PRESETS`、`CHAT_PRESETS`、`IMAGE_PRESETS`、`findPreset(id)`。
 - 能力工具：`modelHasCapability`、`isMultimodal`、`pickModel({ prefer })` —— 跨厂商按能力优先级降级。
-- 仅 Node 子路径 `@s-aiproviders/core/image-gen`：
+- 仅 Node 子路径 `s-aiproviders-core/image-gen`：
   - OpenAI Images 兼容（DALL·E 3 / gpt-image-1 / CogView / lkeap 网关下的混元）。
   - 腾讯云 TC3（`SubmitTextToImageJob`）—— TC3-HMAC-SHA256 签名 + 异步任务轮询（180s 超时）。
   - 旧名兼容 alias `generateImageStandalone`。

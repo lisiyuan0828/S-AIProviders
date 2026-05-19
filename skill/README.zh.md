@@ -8,11 +8,11 @@
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-brightgreen.svg)](#环境要求)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](#许可证)
 
-这个包把 [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core) 包装成可移植 CLI，**同时**附带一份给 AI Agent（Claude Code / Cursor / Codebuddy …）读取的 `SKILL.md`。一次安装，三种用法：
+这个包把 [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core) 包装成可移植 CLI，**同时**附带一份给 AI Agent（Claude Code / Cursor / Codebuddy …）读取的 `SKILL.md`。一次安装，三种用法：
 
 1. **CLI** —— 全局装后 `s-aiproviders <cmd>`，或 `npx @s-aiproviders/cli <cmd>` 零安装直跑。
 2. **AI Agent Skill** —— 把打包好的 `SKILL.md` 软链到 Agent 的 skills 目录，Agent 自动发现并调 CLI。
-3. **库** —— 要嵌入自家产品，请直接装 [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core)。
+3. **库** —— 要嵌入自家产品，请直接装 [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core)。
 
 ---
 
@@ -135,10 +135,10 @@ ln -sfn "$(npm root -g)/@s-aiproviders/cli/references" ~/.claude/skills/s-aiprov
 如果你要把 AI 嵌入自己的 TypeScript 项目，**直接装底层库**更合适：
 
 ```bash
-pnpm add @s-aiproviders/core
+pnpm add s-aiproviders-core
 ```
 
-然后 `import { createProvider } from '@s-aiproviders/core'`。完整的编程式 API 见 [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core)。
+然后 `import { createProvider } from 's-aiproviders-core'`。完整的编程式 API 见 [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core)。
 
 ## 许可证
 

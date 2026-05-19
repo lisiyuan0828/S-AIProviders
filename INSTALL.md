@@ -69,11 +69,11 @@ s-aiproviders chat --prompt "hello"
 **不要**装 `@s-aiproviders/cli`，直接装 core 包：
 
 ```bash
-pnpm add @s-aiproviders/core
+pnpm add s-aiproviders-core
 ```
 
 ```ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -152,7 +152,7 @@ ln -sfn "$(npm root -g)/@s-aiproviders/cli/references" ~/.claude/skills/s-aiprov
 |---|---|
 | 我只是临时想用 AI 跑个脚本 | 方式 1（npx） |
 | 我经常用，想短命令 | 方式 2（全局安装） |
-| 我在做自己的产品，要把 AI 能力做进 UI | 方式 3（`@s-aiproviders/core` 库依赖） |
+| 我在做自己的产品，要把 AI 能力做进 UI | 方式 3（`s-aiproviders-core` 库依赖） |
 | 我想让 Claude / Cursor 自动调用 AI 能力 | 方式 4（Skill 装入 ~/.claude/skills） |
 | 我想 S-Content 复用一份代码 | 方式 3 + 看 [`MIGRATION-FROM-S-CONTENT.md`](./MIGRATION-FROM-S-CONTENT.md) |
 

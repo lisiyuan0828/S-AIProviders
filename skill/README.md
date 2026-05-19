@@ -8,11 +8,11 @@
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-brightgreen.svg)](#requirements)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](#license)
 
-This package wraps [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core) into a portable CLI **and** ships a `SKILL.md` consumable by AI agents (Claude Code / Cursor / Codebuddy / …). One install, three modes:
+This package wraps [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core) into a portable CLI **and** ships a `SKILL.md` consumable by AI agents (Claude Code / Cursor / Codebuddy / …). One install, three modes:
 
 1. **CLI** — `s-aiproviders <cmd>` after `npm i -g`, or `npx @s-aiproviders/cli <cmd>` zero-install.
 2. **Agent Skill** — symlink the bundled `SKILL.md` into your agent's skills directory; the agent will discover and invoke the CLI on its own.
-3. **Library** — for embedding into your own product, install [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core) directly.
+3. **Library** — for embedding into your own product, install [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core) directly.
 
 ---
 
@@ -135,10 +135,10 @@ The agent will read `SKILL.md`'s frontmatter and auto-invoke `npx s-aiproviders 
 For embedding AI into your own TypeScript project, prefer the underlying library directly:
 
 ```bash
-pnpm add @s-aiproviders/core
+pnpm add s-aiproviders-core
 ```
 
-Then `import { createProvider } from '@s-aiproviders/core'`. See [`@s-aiproviders/core`](https://www.npmjs.com/package/@s-aiproviders/core) for the full programmatic API.
+Then `import { createProvider } from 's-aiproviders-core'`. See [`s-aiproviders-core`](https://www.npmjs.com/package/s-aiproviders-core) for the full programmatic API.
 
 ## License
 

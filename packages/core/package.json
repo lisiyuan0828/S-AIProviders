@@ -1,5 +1,5 @@
 {
-  "name": "@s-aiproviders/core",
+  "name": "s-aiproviders-core",
   "version": "0.1.0",
   "description": "Unified AI provider protocol layer: OpenAI-compatible / Anthropic / Gemini chat streaming + image generation (OpenAI-compatible & Tencent Cloud TC3).",
   "license": "MIT",
@@ -43,6 +43,10 @@
   },
   "engines": {
     "node": ">=18.17"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
   },
   "keywords": [
     "ai",

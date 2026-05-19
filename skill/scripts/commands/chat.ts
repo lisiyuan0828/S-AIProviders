@@ -9,7 +9,7 @@
  */
 
 import fs from 'node:fs';
-import { createProvider, type ChatMessageInput } from '@s-aiproviders/core';
+import { createProvider, type ChatMessageInput } from 's-aiproviders-core';
 
 import { type ParsedArgs, getBool, getNum, getStr } from '../args.js';
 import { resolveConfig } from '../config.js';

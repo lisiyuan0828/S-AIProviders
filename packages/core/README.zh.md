@@ -1,10 +1,10 @@
-# @s-aiproviders/core
+# s-aiproviders-core
 
 > 统一的 AI Provider 抽象。一套 API 同时对接 OpenAI、Anthropic、Gemini、DeepSeek、Kimi、Qwen、豆包、智谱、腾讯 Token Plan，并通过 DALL·E / CogView / 混元提供图像生成。**零运行时依赖**。
 
 [English](./README.md) · [简体中文](./README.zh.md)
 
-[![npm](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg)](https://www.npmjs.com/package/@s-aiproviders/core)
+[![npm](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg)](https://www.npmjs.com/package/s-aiproviders-core)
 [![install size](https://img.shields.io/badge/install%20size-%3C30KB-brightgreen.svg)](#)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-success.svg)](#)
 [![types](https://img.shields.io/badge/types-bundled-blue.svg)](#)
@@ -20,18 +20,18 @@
 - **13 个内置 Preset** — Token Plan ★ · OpenAI · Anthropic · Gemini · DeepSeek · Kimi · 通义 · 豆包 · 智谱 · OpenAI Image · 混元 ×2 · CogView。每个 Preset 都带 `displayName`、`defaultBaseURL`、`builtinModels`（含 `capabilities`）。
 - **跨厂商模型选择器** — `pickModel({ prefer: ['image-gen', 'vision', 'text'] })` 在已启用的 provider 中按能力优先级降级匹配，可指定 `providerId` 作为同级 tiebreaker。
 - **零运行时依赖**。基于平台原生 `fetch` + `ReadableStream` + `AbortSignal` 的纯 ESM 实现。
-- **构造上即浏览器安全**。主入口绝不 import `node:*`，仅 Node 模块挂在 `@s-aiproviders/core/image-gen`。
+- **构造上即浏览器安全**。主入口绝不 import `node:*`，仅 Node 模块挂在 `s-aiproviders-core/image-gen`。
 - **诚实的流式语义**。`chat()` **不抛错** —— 网络/解析失败会以 `{ type: 'error' }` 事件下发。`AbortSignal` 端到端贯穿。
 - **不读全局，不读环境变量**。配置全部由调用方注入。SaaS、多租户 Electron、边缘运行时全部安全可用。
 
 ## 安装
 
 ```bash
-pnpm add @s-aiproviders/core
+pnpm add s-aiproviders-core
 # 或
-npm install @s-aiproviders/core
+npm install s-aiproviders-core
 # 或
-yarn add @s-aiproviders/core
+yarn add s-aiproviders-core
 ```
 
 ## 环境要求
@@ -43,7 +43,7 @@ yarn add @s-aiproviders/core
 ## 流式对话
 
 ```ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -92,7 +92,7 @@ const gemini = createProvider('gemini', {
 走子路径 —— 主入口刻意没有 re-export 它。
 
 ```ts
-import { generateImage } from '@s-aiproviders/core/image-gen';
+import { generateImage } from 's-aiproviders-core/image-gen';
 
 const result = await generateImage({
   // 默认根据 baseURL 自动判定；也可显式指定：
@@ -124,7 +124,7 @@ const r = await generateImage({
 ## 跨厂商模型选择器
 
 ```ts
-import { pickModel, type ProviderLike } from '@s-aiproviders/core';
+import { pickModel, type ProviderLike } from 's-aiproviders-core';
 
 const inventory: ProviderLike[] = [
   { id: 'openai',    models: [{ id: 'gpt-4o-mini',  label: 'GPT-4o mini', capabilities: ['text', 'vision'] }] },
@@ -158,7 +158,7 @@ import {
   HUNYUAN_IMAGE_PRESET,
   HUNYUAN_IMAGE_TC3_PRESET,
   ZHIPU_IMAGE_PRESET,
-} from '@s-aiproviders/core';
+} from 's-aiproviders-core';
 
 // 比如做"快速添加 provider"的下拉
 CHAT_PRESETS.forEach((p) => {
@@ -229,7 +229,7 @@ const provider = createProvider('openai-compatible', {
 完全不同的协议，可以自己实现 `IProvider`：
 
 ```ts
-import type { IProvider, ChatChunk, ChatRequest } from '@s-aiproviders/core';
+import type { IProvider, ChatChunk, ChatRequest } from 's-aiproviders-core';
 
 class MyProvider implements IProvider {
   readonly protocol = 'openai-compatible' as const; // 选最接近的方言挂载即可
@@ -245,7 +245,7 @@ class MyProvider implements IProvider {
 
 ```ts
 // main/services/ai.service.ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 import { ipcMain, BrowserWindow } from 'electron';
 
 ipcMain.handle('chat:start', async (event, args: { model: string; prompt: string; apiKey: string }) => {

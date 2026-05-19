@@ -21,7 +21,7 @@ Single Skill that gives any project a working AI integration:
 | **Image generation** | OpenAI Images (DALL·E / gpt-image-1 / CogView / Hunyuan@lkeap) and Tencent Cloud TC3 (混元生图 3.0) |
 | **Built-in presets** | 9 chat + 4 image providers (Token Plan / OpenAI / Anthropic / Gemini / DeepSeek / Kimi / Qwen / Doubao / Zhipu / DALL·E / Hunyuan / CogView) |
 | **Model auto-pick** | `pickModel(prefer: ['image-gen','vision','text'])` for fallback chains |
-| **Two consumption modes** | (a) **Skill CLI** — run scripts directly. (b) **npm package `@s-aiproviders/core`** — `import` it into any TS/JS project. |
+| **Two consumption modes** | (a) **Skill CLI** — run scripts directly. (b) **npm package `s-aiproviders-core`** — `import` it into any TS/JS project. |
 
 > Two-track design: when the user just wants to "run a thing" (one-off scripts, automations, terminal pipelines) → use the **Skill CLI**. When the user is integrating into a real codebase (Electron / Node service / Vite app) → install the **npm package** instead. Both share the same provider catalogue.
 
@@ -33,7 +33,7 @@ Before generating any code, decide which mode the user needs. Use these heuristi
 
 | Signal | Mode |
 |---|---|
-| User has an active TS/JS project (`package.json` present) and asks "add AI to my project" | **npm package** — install `@s-aiproviders/core`, follow `references/integration-as-library.md` |
+| User has an active TS/JS project (`package.json` present) and asks "add AI to my project" | **npm package** — install `s-aiproviders-core`, follow `references/integration-as-library.md` |
 | User asks for a one-off LLM call, batch script, automation, terminal pipeline, `cron` task | **Skill CLI** — run `scripts/main.ts` |
 | Ambiguous | Ask user: "Do you want me to wire this into your project (library), or just run it once (CLI)?" |
 
@@ -146,14 +146,14 @@ Do **not** fire when the user only wants a one-off completion against an SDK the
 Install:
 
 ```bash
-pnpm add @s-aiproviders/core
-# or: npm i @s-aiproviders/core / yarn add @s-aiproviders/core
+pnpm add s-aiproviders-core
+# or: npm i s-aiproviders-core / yarn add s-aiproviders-core
 ```
 
 Minimal chat:
 
 ```ts
-import { createProvider, TOKENPLAN_PRESET } from '@s-aiproviders/core';
+import { createProvider, TOKENPLAN_PRESET } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.TOKENPLAN_API_KEY!,
@@ -173,7 +173,7 @@ for await (const ev of provider.chat(
 Image generation (Node only — uses `node:crypto` / `node:fs`):
 
 ```ts
-import { generateImage } from '@s-aiproviders/core/image-gen';
+import { generateImage } from 's-aiproviders-core/image-gen';
 
 const result = await generateImage({
   baseURL: 'https://api.openai.com/v1',

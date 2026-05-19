@@ -1,5 +1,5 @@
 /**
- * @s-aiproviders/core
+ * s-aiproviders-core
  *
  * Public surface — safe for both browser and Node bundles.
  *   - Provider abstraction & three protocol implementations (chat streaming)
@@ -7,7 +7,7 @@
  *   - Capability helpers + cross-provider model picker
  *
  * The Node-only image-gen module lives at the subpath:
- *     import { generateImage } from '@s-aiproviders/core/image-gen'
+ *     import { generateImage } from 's-aiproviders-core/image-gen'
  * It depends on node:crypto / node:fs and must NOT be imported from browser code.
  */
 

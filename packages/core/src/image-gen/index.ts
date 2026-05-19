@@ -7,7 +7,7 @@
  *
  * Imports node:crypto / node:fs — DO NOT import this module from a browser
  * bundle. The package's main entry intentionally does not re-export it; reach
- * for it via `@s-aiproviders/core/image-gen`.
+ * for it via `s-aiproviders-core/image-gen`.
  */
 
 import { createHash, createHmac, randomUUID } from 'node:crypto';

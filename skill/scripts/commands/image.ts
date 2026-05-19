@@ -8,7 +8,7 @@
  */
 
 import path from 'node:path';
-import { generateImage } from '@s-aiproviders/core/image-gen';
+import { generateImage } from 's-aiproviders-core/image-gen';
 
 import { type ParsedArgs, getBool, getStr } from '../args.js';
 import { resolveConfig } from '../config.js';

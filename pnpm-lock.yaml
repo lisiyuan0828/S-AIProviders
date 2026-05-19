@@ -29,7 +29,7 @@ importers:
 
   skill:
     dependencies:
-      '@s-aiproviders/core':
+      s-aiproviders-core:
         specifier: workspace:*
         version: link:../packages/core
     devDependencies:

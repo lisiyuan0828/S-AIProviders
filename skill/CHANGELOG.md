@@ -5,7 +5,7 @@ All notable changes to the `@s-aiproviders/cli` package are documented in this f
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/),
 and the package adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
 
-> The CLI is a thin wrapper over [`@s-aiproviders/core`](../packages/core). Provider catalogue changes are tracked in the core package's CHANGELOG.
+> The CLI is a thin wrapper over [`s-aiproviders-core`](../packages/core). Provider catalogue changes are tracked in the core package's CHANGELOG.
 
 ---
 
@@ -57,7 +57,7 @@ Initial public release.
 - Reference documents under `references/`:
   - `config/extend-md-schema.md` — full EXTEND.md schema and example.
   - `config/first-time-setup.md` — interactive setup flow.
-  - `integration-as-library.md` — recipes for using `@s-aiproviders/core` directly.
+  - `integration-as-library.md` — recipes for using `s-aiproviders-core` directly.
   - `providers.md` — wire-format gotchas per provider.
 - Compiled to plain ESM JS with `#!/usr/bin/env node` shebang; runs on any Node ≥ 18.17 without `tsx`. The shebang is restored by `scripts/postbuild-shebang.cjs` and the bin file is `chmod +x` automatically.
 - `prepublishOnly` hook auto-`clean` + `build`; pnpm rewrites `workspace:*` to a concrete version at pack time.

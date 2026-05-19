@@ -5,7 +5,7 @@
 格式参考 [Keep a Changelog 1.1.0](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/spec/v2.0.0.html)。
 
-> CLI 是 [`@s-aiproviders/core`](../packages/core) 的薄包装。Provider 目录的变更记录在 core 包的 CHANGELOG 中。
+> CLI 是 [`s-aiproviders-core`](../packages/core) 的薄包装。Provider 目录的变更记录在 core 包的 CHANGELOG 中。
 
 ---
 
@@ -57,7 +57,7 @@
 - `references/` 下的参考文档：
   - `config/extend-md-schema.md` —— 完整 EXTEND.md schema + 示例。
   - `config/first-time-setup.md` —— 交互式首次设置流程。
-  - `integration-as-library.md` —— 直接使用 `@s-aiproviders/core` 的集成示例。
+  - `integration-as-library.md` —— 直接使用 `s-aiproviders-core` 的集成示例。
   - `providers.md` —— 各 provider 的协议坑位与 apiKey 格式。
 - 编译为纯 ESM JS，带 `#!/usr/bin/env node` shebang；任何 Node ≥ 18.17 无需 `tsx` 直接跑。Shebang 由 `scripts/postbuild-shebang.cjs` 在 build 后回填，bin 文件自动 `chmod +x`。
 - `prepublishOnly` 钩子自动 `clean` + `build`；pnpm 在 pack 时把 `workspace:*` 改写为具体版本号。

@@ -1,6 +1,6 @@
-# 更新日志 — `@s-aiproviders/core`
+# 更新日志 — `s-aiproviders-core`
 
-`@s-aiproviders/core` 包的所有显著变更都记录在本文件。
+`s-aiproviders-core` 包的所有显著变更都记录在本文件。
 
 格式参考 [Keep a Changelog 1.1.0](https://keepachangelog.com/zh-CN/1.1.0/)，
 版本号遵循 [语义化版本 2.0.0](https://semver.org/lang/zh-CN/spec/v2.0.0.html)。
@@ -41,7 +41,7 @@
 - 聚合导出：`BUILTIN_PRESETS`、`CHAT_PRESETS`、`IMAGE_PRESETS`、`findPreset(id)`。
 - 能力工具：`modelHasCapability`、`isMultimodal`。
 - `pickModel(providers, { prefer, providerId? })` —— 跨厂商按能力优先级降级。
-- 仅 Node 子路径 `@s-aiproviders/core/image-gen`：
+- 仅 Node 子路径 `s-aiproviders-core/image-gen`：
   - `generateImage(input)`（旧名 alias `generateImageStandalone`）。
   - OpenAI 兼容 `POST /v1/images/generations`（`b64_json` 响应）。
   - 腾讯云 TC3（`SubmitTextToImageJob` + `QueryTextToImageJob`），TC3-HMAC-SHA256 签名，2s 轮询，180s 超时。

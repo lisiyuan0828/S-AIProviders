@@ -2,7 +2,7 @@
  * Cross-cutting types shared by every protocol implementation.
  *
  * Design rule: this file MUST NOT depend on any external schema library
- * (e.g. zod). The types here are the public contract of @s-aiproviders/core.
+ * (e.g. zod). The types here are the public contract of s-aiproviders-core.
  */
 
 /* ========== Protocol & messages ========== */

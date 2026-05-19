@@ -1,10 +1,10 @@
-# @s-aiproviders/core
+# s-aiproviders-core
 
 > Unified AI provider abstraction. One API for OpenAI, Anthropic, Gemini, DeepSeek, Kimi, Qwen, Doubao, Zhipu, Tencent Token Plan, plus image generation via DALL·E / CogView / Hunyuan. Zero runtime dependencies.
 
 [English](./README.md) · [简体中文](./README.zh.md)
 
-[![npm](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg)](https://www.npmjs.com/package/@s-aiproviders/core)
+[![npm](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg)](https://www.npmjs.com/package/s-aiproviders-core)
 [![install size](https://img.shields.io/badge/install%20size-%3C30KB-brightgreen.svg)](#)
 [![runtime deps](https://img.shields.io/badge/runtime%20deps-0-success.svg)](#)
 [![types](https://img.shields.io/badge/types-bundled-blue.svg)](#)
@@ -20,18 +20,18 @@
 - **13 built-in presets** — Token Plan ★ · OpenAI · Anthropic · Gemini · DeepSeek · Kimi · Qwen · Doubao · Zhipu · OpenAI Image · Hunyuan ×2 · CogView. Each carries `displayName`, `defaultBaseURL`, and `builtinModels` with `capabilities`.
 - **Cross-provider model picker** — `pickModel({ prefer: ['image-gen', 'vision', 'text'] })` returns the first matching model across your enabled providers, with a `providerId` tiebreaker.
 - **Zero runtime dependencies.** Pure ESM on top of platform-native `fetch` + `ReadableStream` + `AbortSignal`.
-- **Browser-safe by construction.** Main entry never imports `node:*`. The Node-only image-gen module is at `@s-aiproviders/core/image-gen`.
+- **Browser-safe by construction.** Main entry never imports `node:*`. The Node-only image-gen module is at `s-aiproviders-core/image-gen`.
 - **Honest streaming.** `chat()` never throws on network/parse failures — yields `{ type: 'error' }` instead. `AbortSignal` honoured end-to-end.
 - **No globals, no env reads.** Configuration is fully caller-supplied. Suitable for SaaS, multi-tenant Electron, edge runtimes.
 
 ## Install
 
 ```bash
-pnpm add @s-aiproviders/core
+pnpm add s-aiproviders-core
 # or
-npm install @s-aiproviders/core
+npm install s-aiproviders-core
 # or
-yarn add @s-aiproviders/core
+yarn add s-aiproviders-core
 ```
 
 ## Requirements
@@ -43,7 +43,7 @@ yarn add @s-aiproviders/core
 ## Streaming chat
 
 ```ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -92,7 +92,7 @@ The library extracts `system` messages for Anthropic, maps `assistant` → `mode
 Reach for the subpath — the main entry intentionally does not re-export it.
 
 ```ts
-import { generateImage } from '@s-aiproviders/core/image-gen';
+import { generateImage } from 's-aiproviders-core/image-gen';
 
 const result = await generateImage({
   // Auto-detected from baseURL; or set explicitly:
@@ -124,7 +124,7 @@ const r = await generateImage({
 ## Cross-provider model picker
 
 ```ts
-import { pickModel, type ProviderLike } from '@s-aiproviders/core';
+import { pickModel, type ProviderLike } from 's-aiproviders-core';
 
 const inventory: ProviderLike[] = [
   { id: 'openai',    models: [{ id: 'gpt-4o-mini',  label: 'GPT-4o mini', capabilities: ['text', 'vision'] }] },
@@ -158,7 +158,7 @@ import {
   HUNYUAN_IMAGE_PRESET,
   HUNYUAN_IMAGE_TC3_PRESET,
   ZHIPU_IMAGE_PRESET,
-} from '@s-aiproviders/core';
+} from 's-aiproviders-core';
 
 // e.g. drive a "quick add provider" UI
 CHAT_PRESETS.forEach((p) => {
@@ -229,7 +229,7 @@ const provider = createProvider('openai-compatible', {
 For a fundamentally different protocol, implement `IProvider`:
 
 ```ts
-import type { IProvider, ChatChunk, ChatRequest } from '@s-aiproviders/core';
+import type { IProvider, ChatChunk, ChatRequest } from 's-aiproviders-core';
 
 class MyProvider implements IProvider {
   readonly protocol = 'openai-compatible' as const; // pick the closest dialect
@@ -245,7 +245,7 @@ Drop the library into your main process:
 
 ```ts
 // main/services/ai.service.ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 import { ipcMain, BrowserWindow } from 'electron';
 
 ipcMain.handle('chat:start', async (event, args: { model: string; prompt: string; apiKey: string }) => {

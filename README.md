@@ -4,7 +4,7 @@
 
 [English](./README.md) · [简体中文](./README.zh.md)
 
-[![npm core](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg?label=%40s-aiproviders%2Fcore)](https://www.npmjs.com/package/@s-aiproviders/core)
+[![npm core](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg?label=%40s-aiproviders%2Fcore)](https://www.npmjs.com/package/s-aiproviders-core)
 [![npm cli](https://img.shields.io/npm/v/%40s-aiproviders%2Fcli.svg?label=%40s-aiproviders%2Fcli)](https://www.npmjs.com/package/@s-aiproviders/cli)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](#license)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-brightgreen.svg)](#requirements)
@@ -45,7 +45,7 @@ Every project that touches AI ends up rewriting the same wiring: parse SSE, norm
 **Design tenets**
 
 - **Zero runtime dependencies.** The core ships pure TypeScript on top of the platform's `fetch` + `ReadableStream`. No `openai`, no `langchain`, no `axios`.
-- **Single source of truth.** The provider catalogue, capability metadata, and protocol implementations all live in `@s-aiproviders/core`. The CLI is a thin wrapper over the same code.
+- **Single source of truth.** The provider catalogue, capability metadata, and protocol implementations all live in `s-aiproviders-core`. The CLI is a thin wrapper over the same code.
 - **Browser-safe by construction.** The main entry never imports `node:*`. Node-only image generation lives behind the `/image-gen` subpath, so renderer bundles stay clean.
 - **Honest streaming semantics.** `chat()` is an `AsyncIterable<ChatChunk>`. It never throws on network or parse errors — it yields `{ type: 'error' }` so callers don't need defensive try/catch around `for await`. `AbortSignal` is honoured end-to-end.
 - **Explicit boundaries.** The library never reads environment variables, files, or globals. All configuration is caller-supplied — perfect for SaaS, multi-tenant Electron apps, and serverless.
@@ -81,7 +81,7 @@ Every project that touches AI ends up rewriting the same wiring: parse SSE, norm
 | `hunyuan-image-tc3` | 腾讯混元生图 3.0 | TC3-signed async | `https://aiart.tencentcloudapi.com` | `apiKey: "SecretId:SecretKey"`. |
 | `zhipu-image` | 智谱 CogView | openai-compatible | `https://open.bigmodel.cn/api/paas/v4` | CogView-3 / 3-Plus. |
 
-Run `npx @s-aiproviders/cli list-presets --json` for the machine-readable catalogue, or `import { BUILTIN_PRESETS } from '@s-aiproviders/core'`.
+Run `npx @s-aiproviders/cli list-presets --json` for the machine-readable catalogue, or `import { BUILTIN_PRESETS } from 's-aiproviders-core'`.
 
 > Adding a new OpenAI-compatible vendor is a one-line change: pick `--provider openai` and pass `--baseurl https://your-gateway/v1`. No code change needed.
 
@@ -101,13 +101,13 @@ npx @s-aiproviders/cli chat \
 ### Install as a library
 
 ```bash
-pnpm add @s-aiproviders/core
-# or: npm install @s-aiproviders/core
-# or: yarn add @s-aiproviders/core
+pnpm add s-aiproviders-core
+# or: npm install s-aiproviders-core
+# or: yarn add s-aiproviders-core
 ```
 
 ```ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -137,7 +137,7 @@ for await (const ev of provider.chat(
 |---|---|---|---|
 | 1 | **Zero-install** | `npx @s-aiproviders/cli <cmd>` | One-off tasks, CI/CD, sandboxes |
 | 2 | **Global CLI** | `npm i -g @s-aiproviders/cli` then `s-aiproviders <cmd>` | Daily terminal workflows |
-| 3 | **Library import** | `pnpm add @s-aiproviders/core` then `import { createProvider }` | Embedding AI into your own product (Electron / Node service / Vite) |
+| 3 | **Library import** | `pnpm add s-aiproviders-core` then `import { createProvider }` | Embedding AI into your own product (Electron / Node service / Vite) |
 | 4 | **AI-Agent Skill** | Symlink the installed `SKILL.md` into `~/.claude/skills/` | Claude Code / Cursor / Codebuddy auto-invocation |
 
 Step-by-step instructions for each, including how to wire the Skill into Claude Code, live in [`INSTALL.md`](./INSTALL.md).
@@ -194,7 +194,7 @@ Full schema and security notes: [`skill/references/config/extend-md-schema.md`](
 
 ## API reference
 
-### Public surface — `@s-aiproviders/core`
+### Public surface — `s-aiproviders-core`
 
 All exports below are tree-shakable and ship complete `.d.ts` types.
 
@@ -240,7 +240,7 @@ All exports below are tree-shakable and ship complete `.d.ts` types.
 |---|---|
 | `parseSse` | `(stream: ReadableStream<Uint8Array>, signal: AbortSignal) => AsyncGenerator<SseEvent>` |
 
-#### `@s-aiproviders/core/image-gen` (Node-only subpath)
+#### `s-aiproviders-core/image-gen` (Node-only subpath)
 
 | Symbol | Signature |
 |---|---|
@@ -302,7 +302,7 @@ Full integration recipes (Electron main process, multi-provider fallback, Node s
             │                   │                 │
             ▼                   ▼                 ▼
 ┌──────────────────────────────────────────────────────────┐
-│                  @s-aiproviders/core                      │
+│                  s-aiproviders-core                      │
 │                                                           │
 │  createProvider() ──► IProvider                          │
 │      │                  │                                 │
@@ -327,7 +327,7 @@ The core never reaches "outside" — no env vars, no `fs`, no globals — except
 ```
 S-AIProviders/
 ├── packages/
-│   └── core/                          # @s-aiproviders/core (the npm library)
+│   └── core/                          # s-aiproviders-core (the npm library)
 │       ├── src/
 │       │   ├── types.ts               # IProvider · ChatRequest · ChatChunk · ProviderPreset
 │       │   ├── sse.ts                 # Shared SSE parser
@@ -381,7 +381,7 @@ S-AIProviders/
 pnpm install                                    # install workspace deps
 pnpm -r build                                   # build core + cli
 pnpm -r typecheck                               # strict tsc --noEmit on every package
-pnpm --filter @s-aiproviders/core clean         # remove dist
+pnpm --filter s-aiproviders-core clean         # remove dist
 pnpm --filter @s-aiproviders/cli  clean
 
 # Run CLI in dev mode (no build needed, uses tsx)
@@ -445,7 +445,7 @@ The official SDKs each pull in their own HTTP client, their own retry middleware
 Yes — if it speaks the OpenAI `/chat/completions` wire format, just pass `--provider openai --baseurl https://your-gateway/v1`. If it's a fundamentally different protocol, implement `IProvider` and add it to the factory; we welcome PRs.
 
 **Q: Is the image-gen module browser-safe?**
-No. It uses `node:crypto` for TC3 signing and `node:fs` for output. The package's main entry intentionally does not re-export it; reach for `@s-aiproviders/core/image-gen`. Building this in the browser is a Vite/Webpack hint to externalise.
+No. It uses `node:crypto` for TC3 signing and `node:fs` for output. The package's main entry intentionally does not re-export it; reach for `s-aiproviders-core/image-gen`. Building this in the browser is a Vite/Webpack hint to externalise.
 
 **Q: How does cancellation work?**
 Pass an `AbortSignal` to `chat()`. The signal is forwarded to `fetch` and to the SSE reader, so an abort severs both the HTTP socket and the iterator. The CLI maps `SIGINT` (Ctrl-C) to the same signal.

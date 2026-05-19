@@ -4,7 +4,7 @@
 
 [English](./README.md) · [简体中文](./README.zh.md)
 
-[![npm core](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg?label=%40s-aiproviders%2Fcore)](https://www.npmjs.com/package/@s-aiproviders/core)
+[![npm core](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg?label=%40s-aiproviders%2Fcore)](https://www.npmjs.com/package/s-aiproviders-core)
 [![npm cli](https://img.shields.io/npm/v/%40s-aiproviders%2Fcli.svg?label=%40s-aiproviders%2Fcli)](https://www.npmjs.com/package/@s-aiproviders/cli)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](#许可证)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-brightgreen.svg)](#环境要求)
@@ -45,7 +45,7 @@
 **设计原则**
 
 - **零运行时依赖**。核心包仅基于平台原生 `fetch` + `ReadableStream`，不依赖 `openai`、`langchain`、`axios` 等任何第三方 SDK。
-- **唯一事实源**。Provider 目录、能力元数据、协议实现全部集中在 `@s-aiproviders/core`，CLI 只是它的薄包装。
+- **唯一事实源**。Provider 目录、能力元数据、协议实现全部集中在 `s-aiproviders-core`，CLI 只是它的薄包装。
 - **构造上即浏览器安全**。主入口绝不 import `node:*`，仅 Node 可用的图像生成模块挂在 `/image-gen` 子路径，渲染端打包不会被污染。
 - **诚实的流式语义**。`chat()` 返回 `AsyncIterable<ChatChunk>`，**不抛错**：网络/解析失败会以 `{ type: 'error' }` 事件下发，调用方无需在 `for await` 外面包 try/catch。`AbortSignal` 端到端贯穿。
 - **边界明确**。库本身不读环境变量、不读文件、不依赖全局对象 —— 全部配置由调用方注入。这对 SaaS、多租户 Electron 应用、Serverless 都是必备特性。
@@ -81,7 +81,7 @@
 | `hunyuan-image-tc3` | 腾讯混元生图 3.0 | TC3 异步签名 | `https://aiart.tencentcloudapi.com` | apiKey 格式 `"SecretId:SecretKey"` |
 | `zhipu-image` | 智谱 CogView | openai-compatible | `https://open.bigmodel.cn/api/paas/v4` | CogView-3 / 3-Plus |
 
-执行 `npx @s-aiproviders/cli list-presets --json` 获取机器可读目录，或 `import { BUILTIN_PRESETS } from '@s-aiproviders/core'`。
+执行 `npx @s-aiproviders/cli list-presets --json` 获取机器可读目录，或 `import { BUILTIN_PRESETS } from 's-aiproviders-core'`。
 
 > 接入新的 OpenAI 兼容厂商无需改一行代码：`--provider openai --baseurl https://your-gateway/v1` 即可。
 
@@ -101,13 +101,13 @@ npx @s-aiproviders/cli chat \
 ### 作为库引入
 
 ```bash
-pnpm add @s-aiproviders/core
-# 或：npm install @s-aiproviders/core
-# 或：yarn add @s-aiproviders/core
+pnpm add s-aiproviders-core
+# 或：npm install s-aiproviders-core
+# 或：yarn add s-aiproviders-core
 ```
 
 ```ts
-import { createProvider } from '@s-aiproviders/core';
+import { createProvider } from 's-aiproviders-core';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -137,7 +137,7 @@ for await (const ev of provider.chat(
 |---|---|---|---|
 | 1 | **零安装** | `npx @s-aiproviders/cli <cmd>` | 一次性任务、CI/CD、沙箱 |
 | 2 | **全局 CLI** | `npm i -g @s-aiproviders/cli` 后用 `s-aiproviders <cmd>` | 终端日常工作流 |
-| 3 | **库引入** | `pnpm add @s-aiproviders/core` 后 `import { createProvider }` | 接入自家产品（Electron / Node 服务 / Vite） |
+| 3 | **库引入** | `pnpm add s-aiproviders-core` 后 `import { createProvider }` | 接入自家产品（Electron / Node 服务 / Vite） |
 | 4 | **AI Agent Skill** | 将安装后的 `SKILL.md` 软链到 `~/.claude/skills/` | 让 Claude Code / Cursor / Codebuddy 自动调用 |
 
 每种方式的完整步骤（包括如何把 Skill 接到 Claude Code）见 [`INSTALL.md`](./INSTALL.md)。
@@ -194,7 +194,7 @@ providers:
 
 ## API 参考
 
-### 公共导出 — `@s-aiproviders/core`
+### 公共导出 — `s-aiproviders-core`
 
 下列导出全部支持 tree-shaking，并附完整 `.d.ts` 类型。
 
@@ -240,7 +240,7 @@ providers:
 |---|---|
 | `parseSse` | `(stream: ReadableStream<Uint8Array>, signal: AbortSignal) => AsyncGenerator<SseEvent>` |
 
-#### `@s-aiproviders/core/image-gen`（仅 Node 子路径）
+#### `s-aiproviders-core/image-gen`（仅 Node 子路径）
 
 | 名称 | 签名 |
 |---|---|
@@ -302,7 +302,7 @@ list-presets：
             │                   │                 │
             ▼                   ▼                 ▼
 ┌──────────────────────────────────────────────────────────┐
-│                  @s-aiproviders/core                      │
+│                  s-aiproviders-core                      │
 │                                                           │
 │  createProvider() ──► IProvider                          │
 │      │                                                    │
@@ -327,7 +327,7 @@ list-presets：
 ```
 S-AIProviders/
 ├── packages/
-│   └── core/                          # @s-aiproviders/core（npm 库）
+│   └── core/                          # s-aiproviders-core（npm 库）
 │       ├── src/
 │       │   ├── types.ts               # IProvider · ChatRequest · ChatChunk · ProviderPreset
 │       │   ├── sse.ts                 # 共用 SSE 解析器
@@ -381,7 +381,7 @@ S-AIProviders/
 pnpm install                                    # 安装 workspace 依赖
 pnpm -r build                                   # 构建 core + cli
 pnpm -r typecheck                               # 严格 tsc --noEmit
-pnpm --filter @s-aiproviders/core clean         # 清理 dist
+pnpm --filter s-aiproviders-core clean         # 清理 dist
 pnpm --filter @s-aiproviders/cli  clean
 
 # 开发模式跑 CLI（无需 build，走 tsx）
@@ -445,7 +445,7 @@ S-AIProviders 刻意保持精简 —— 它**不**取代 `langchain` 的 Agent �
 只要它讲 OpenAI `/chat/completions` 协议，直接 `--provider openai --baseurl https://your-gateway/v1` 就行。如果是完全不同的协议，实现 `IProvider` 接口并加进 factory 即可，欢迎 PR。
 
 **Q: image-gen 模块能在浏览器里用吗？**
-**不能**。它用了 `node:crypto` 做 TC3 签名、`node:fs` 落盘。主入口刻意不再 re-export 它，访问路径是 `@s-aiproviders/core/image-gen`。在浏览器构建里这是 Vite/Webpack 的 externalise 提示。
+**不能**。它用了 `node:crypto` 做 TC3 签名、`node:fs` 落盘。主入口刻意不再 re-export 它，访问路径是 `s-aiproviders-core/image-gen`。在浏览器构建里这是 Vite/Webpack 的 externalise 提示。
 
 **Q: 如何取消正在进行的请求？**
 `chat()` 接收 `AbortSignal`，会同时透传给底层 `fetch` 和 SSE 读取器，abort 时 HTTP 套接字与异步迭代器一起结束。CLI 把 `SIGINT`（Ctrl-C）映射到同一个 signal。

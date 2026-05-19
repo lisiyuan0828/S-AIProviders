@@ -1,6 +1,6 @@
-# Changelog — `@s-aiproviders/core`
+# Changelog — `s-aiproviders-core`
 
-All notable changes to the `@s-aiproviders/core` package are documented in this file.
+All notable changes to the `s-aiproviders-core` package are documented in this file.
 
 The format is based on [Keep a Changelog 1.1.0](https://keepachangelog.com/en/1.1.0/),
 and the package adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
@@ -41,7 +41,7 @@ Initial public release.
 - Aggregations: `BUILTIN_PRESETS`, `CHAT_PRESETS`, `IMAGE_PRESETS`, `findPreset(id)`.
 - Capability helpers: `modelHasCapability`, `isMultimodal`.
 - `pickModel(providers, { prefer, providerId? })` — cross-provider capability-priority fallback.
-- Node-only subpath `@s-aiproviders/core/image-gen`:
+- Node-only subpath `s-aiproviders-core/image-gen`:
   - `generateImage(input)` (alias `generateImageStandalone`).
   - OpenAI-compatible `POST /v1/images/generations` with `b64_json` response.
   - Tencent Cloud TC3 (`SubmitTextToImageJob` + `QueryTextToImageJob`) with TC3-HMAC-SHA256 signing, 2s polling, 180s timeout.

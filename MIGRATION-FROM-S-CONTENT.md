@@ -5,7 +5,7 @@ S-Content 项目里 `packages/providers` 抽出后，原项目可以选择两条
 
 ## 路径 1：直接 `pnpm add`（推荐，仓库 push 后立即可用）
 
-把 `@s-content/providers` 完全替换成 `@s-aiproviders/core`。
+把 `@s-content/providers` 完全替换成 `s-aiproviders-core`。
 
 ### 步骤
 
@@ -13,7 +13,7 @@ S-Content 项目里 `packages/providers` 抽出后，原项目可以选择两条
 
    ```bash
    cd S-AIProviders
-   pnpm --filter @s-aiproviders/core build
+   pnpm --filter s-aiproviders-core build
    cd packages/core
    npm publish --access public        # 或 --registry <your-registry>
    ```
@@ -30,8 +30,8 @@ S-Content 项目里 `packages/providers` 抽出后，原项目可以选择两条
 
    | 旧 import | 新 import |
    |---|---|
-   | `from '@s-content/providers'` | `from '@s-aiproviders/core'` |
-   | `from '@s-content/providers/image-gen'` | `from '@s-aiproviders/core/image-gen'` |
+   | `from '@s-content/providers'` | `from 's-aiproviders-core'` |
+   | `from '@s-content/providers/image-gen'` | `from 's-aiproviders-core/image-gen'` |
    | `generateImageStandalone` | `generateImage`（同名 alias 也仍可用） |
    | `BUILTIN_PRESETS` 中的那 13 个常量 | 完全同名导出 |
    | `pickModel` / `modelHasCapability` / `isMultimodal` | 完全同名导出 |
@@ -42,7 +42,7 @@ S-Content 项目里 `packages/providers` 抽出后，原项目可以选择两条
 
      ```ts
      // chat.service.ts
-     import { createProvider, type ChatChunk as KitChunk } from '@s-aiproviders/core';
+     import { createProvider, type ChatChunk as KitChunk } from 's-aiproviders-core';
      import type { ChatRequest, ChatChunk } from '@s-content/shared-types';
 
      for await (const ev of provider.chat(
@@ -57,7 +57,7 @@ S-Content 项目里 `packages/providers` 抽出后，原项目可以选择两条
 
 5. `image-prompt` 包内部如果用了 `@s-content/shared-types/StyleProfile` 等业务类型，**不动**。
 
-6. `packages/providers/src/image-gen/index.ts` 已被 kit 的 `@s-aiproviders/core/image-gen` 替代，函数名 `generateImage`（保留 alias `generateImageStandalone`）。
+6. `packages/providers/src/image-gen/index.ts` 已被 kit 的 `s-aiproviders-core/image-gen` 替代，函数名 `generateImage`（保留 alias `generateImageStandalone`）。
 
 ## 路径 2：vendor（不发包，把 kit 仓库当 git submodule）
 
@@ -68,13 +68,13 @@ cd S-Content
 git submodule add <kit-repo-url> vendor/S-AIProviders
 ```
 
-然后 `pnpm-workspace.yaml` 加 `- 'vendor/S-AIProviders/packages/*'`，imports 直接走 `@s-aiproviders/core`，与路径 1 完全一致。
+然后 `pnpm-workspace.yaml` 加 `- 'vendor/S-AIProviders/packages/*'`，imports 直接走 `s-aiproviders-core`，与路径 1 完全一致。
 
 ## 兼容性矩阵
 
 | S-Content 旧导出 | kit 中的等价物 |
 |---|---|
-| `IProvider`, `ProviderInitConfig` | 同名（`@s-aiproviders/core`） |
+| `IProvider`, `ProviderInitConfig` | 同名（`s-aiproviders-core`） |
 | `OpenAICompatibleProvider`, `AnthropicProvider`, `GeminiProvider` | 同名 |
 | `createProvider` | 同名 |
 | `ProviderProtocol`, `ModelCapability`, `ModelInfo`, `ProviderKind`, `ProviderPreset` | 同名 |

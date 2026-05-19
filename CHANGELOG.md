@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning 2.0.0](https://semver.org/spec/
 This file aggregates the high-level history across the monorepo. For
 package-specific changes, see:
 
-- [`packages/core/CHANGELOG.md`](./packages/core/CHANGELOG.md) — `@s-aiproviders/core`
+- [`packages/core/CHANGELOG.md`](./packages/core/CHANGELOG.md) — `s-aiproviders-core`
 - [`skill/CHANGELOG.md`](./skill/CHANGELOG.md) — `@s-aiproviders/cli`
 
 ## Categories
@@ -45,12 +45,12 @@ Initial public release. Two packages ship together:
 
 | Package | Version |
 |---|---|
-| `@s-aiproviders/core` | 0.1.0 |
+| `s-aiproviders-core` | 0.1.0 |
 | `@s-aiproviders/cli`  | 0.1.0 |
 
 ### Added
 
-#### `@s-aiproviders/core`
+#### `s-aiproviders-core`
 - `IProvider` abstraction with three protocol implementations:
   - `OpenAICompatibleProvider` — covers OpenAI, Tencent Token Plan, DeepSeek, Kimi, Qwen, Doubao, Zhipu, and any OpenAI-clone gateway.
   - `AnthropicProvider` — Claude messages API with auto-extraction of `system` messages.
@@ -60,7 +60,7 @@ Initial public release. Two packages ship together:
 - `parseSse` — reusable SSE primitive over `ReadableStream<Uint8Array>`.
 - 13 built-in `ProviderPreset` constants (9 chat + 4 image), `BUILTIN_PRESETS`, `CHAT_PRESETS`, `IMAGE_PRESETS`, `findPreset(id)`.
 - Capability helpers: `modelHasCapability`, `isMultimodal`, `pickModel({ prefer })` for cross-provider fallback.
-- Node-only image-generation subpath `@s-aiproviders/core/image-gen`:
+- Node-only image-generation subpath `s-aiproviders-core/image-gen`:
   - OpenAI Images compatible (DALL·E 3 / gpt-image-1 / CogView / lkeap-gated Hunyuan).
   - Tencent Cloud TC3 (`SubmitTextToImageJob`) — TC3-HMAC-SHA256 signing, async job polling with 180s timeout.
   - Backward-compat alias `generateImageStandalone`.
