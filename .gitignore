@@ -1,0 +1,11 @@
+node_modules
+dist
+*.log
+.env
+.env.local
+.DS_Store
+.tsbuildinfo
+
+# Skill runtime artifacts
+skill/.cache/
+skill/output/

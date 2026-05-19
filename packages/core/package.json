@@ -1,0 +1,53 @@
+{
+  "name": "@s-aiproviders/core",
+  "version": "0.1.0",
+  "description": "Unified AI provider protocol layer: OpenAI-compatible / Anthropic / Gemini chat streaming + image generation (OpenAI-compatible & Tencent Cloud TC3).",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./image-gen": {
+      "types": "./dist/image-gen/index.d.ts",
+      "import": "./dist/image-gen/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "deepseek",
+    "kimi",
+    "qwen",
+    "doubao",
+    "zhipu",
+    "tokenplan",
+    "image-generation",
+    "streaming",
+    "sse"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.7.0"
+  }
+}

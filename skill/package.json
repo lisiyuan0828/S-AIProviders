@@ -1,0 +1,24 @@
+{
+  "name": "@s-aiproviders/skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Portable Skill CLI wrapping @s-aiproviders/core (chat / image / list-presets).",
+  "type": "module",
+  "bin": {
+    "s-aiproviders": "./scripts/main.ts"
+  },
+  "scripts": {
+    "chat": "tsx scripts/main.ts chat",
+    "image": "tsx scripts/main.ts image",
+    "list": "tsx scripts/main.ts list-presets",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@s-aiproviders/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.7.0"
+  }
+}
