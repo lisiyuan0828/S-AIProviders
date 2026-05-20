@@ -1,11 +1,10 @@
-# S-AIProviders
+# s-aiproviders
 
-> One package, every model. A unified AI provider abstraction shipped in two interchangeable forms — an installable **TypeScript library** and a runnable **CLI / Skill** — sharing a single source of truth.
+> One package, every model. A unified, dependency-free AI provider toolkit that ships **both a TypeScript library and a CLI in a single npm install** — so you can `import { createProvider }` from your app and `npx s-aiproviders chat` from your terminal with the exact same protocol layer underneath.
 
 [English](./README.md) · [简体中文](./README.zh.md)
 
-[![npm core](https://img.shields.io/npm/v/%40s-aiproviders%2Fcore.svg?label=%40s-aiproviders%2Fcore)](https://www.npmjs.com/package/s-aiproviders-core)
-[![npm cli](https://img.shields.io/npm/v/%40s-aiproviders%2Fcli.svg?label=%40s-aiproviders%2Fcli)](https://www.npmjs.com/package/@s-aiproviders/cli)
+[![npm](https://img.shields.io/npm/v/s-aiproviders.svg)](https://www.npmjs.com/package/s-aiproviders)
 [![license](https://img.shields.io/badge/license-MIT-green.svg)](#license)
 [![Node](https://img.shields.io/badge/node-%E2%89%A518.17-brightgreen.svg)](#requirements)
 [![types](https://img.shields.io/badge/types-bundled-blue.svg)](#)
@@ -15,17 +14,16 @@
 
 ## Table of contents
 
-- [Why S-AIProviders](#why-s-aiproviders)
+- [Why s-aiproviders](#why-s-aiproviders)
 - [Feature matrix](#feature-matrix)
 - [Provider catalogue](#provider-catalogue)
 - [Quick start](#quick-start)
-- [Four ways to consume](#four-ways-to-consume)
+- [Three ways to consume](#three-ways-to-consume)
 - [Configuration](#configuration)
 - [API reference](#api-reference)
 - [Architecture](#architecture)
 - [Repository layout](#repository-layout)
 - [Building from source](#building-from-source)
-- [Publishing](#publishing)
 - [Comparison with similar tools](#comparison-with-similar-tools)
 - [FAQ](#faq)
 - [Versioning](#versioning)
@@ -33,20 +31,19 @@
 
 ---
 
-## Why S-AIProviders
+## Why s-aiproviders
 
-Every project that touches AI ends up rewriting the same wiring: parse SSE, normalise the three big chat dialects, juggle API keys, support both DALL·E and Tencent Cloud's async signed image API, build a provider list for the settings UI. S-AIProviders distills that wiring into a single, dependency-free TypeScript core that can be consumed in **four** ways without changing the underlying contract:
+Every project that touches AI ends up rewriting the same wiring: parse SSE, normalise the three big chat dialects, juggle API keys, support both DALL·E and Tencent Cloud's async signed image API, build a provider list for the settings UI. **s-aiproviders** distills that wiring into a single, dependency-free TypeScript package that can be consumed in **three** ways without changing the underlying contract:
 
 1. As an **npm library** dropped into a Node service, an Electron main process, or a Vite app.
-2. As a **CLI** invoked from shell scripts, automations, or `cron`.
-3. As a **zero-install one-liner** via `npx @s-aiproviders/cli`.
-4. As an **AI-Agent Skill** (Claude Code / Cursor / Codebuddy compatible) — agents read the bundled `SKILL.md` and call the CLI on the user's behalf.
+2. As a **CLI** (`npx s-aiproviders` or install globally) for shell scripts, automations, and `cron`.
+3. As an **AI-Agent Skill** (Claude Code / Cursor / Codebuddy compatible) — agents read the bundled `SKILL.md` and call the CLI on the user's behalf.
 
 **Design tenets**
 
-- **Zero runtime dependencies.** The core ships pure TypeScript on top of the platform's `fetch` + `ReadableStream`. No `openai`, no `langchain`, no `axios`.
-- **Single source of truth.** The provider catalogue, capability metadata, and protocol implementations all live in `s-aiproviders-core`. The CLI is a thin wrapper over the same code.
-- **Browser-safe by construction.** The main entry never imports `node:*`. Node-only image generation lives behind the `/image-gen` subpath, so renderer bundles stay clean.
+- **Zero runtime dependencies.** Pure TypeScript on top of the platform's `fetch` + `ReadableStream`. No `openai`, no `langchain`, no `axios`.
+- **Single source of truth.** Library, CLI, and Skill are the same install. The CLI is a thin wrapper over the same exported API.
+- **Browser-safe by construction.** The main entry never imports `node:*`. Node-only image generation lives behind the `s-aiproviders/image-gen` subpath, so renderer bundles stay clean.
 - **Honest streaming semantics.** `chat()` is an `AsyncIterable<ChatChunk>`. It never throws on network or parse errors — it yields `{ type: 'error' }` so callers don't need defensive try/catch around `for await`. `AbortSignal` is honoured end-to-end.
 - **Explicit boundaries.** The library never reads environment variables, files, or globals. All configuration is caller-supplied — perfect for SaaS, multi-tenant Electron apps, and serverless.
 
@@ -81,7 +78,7 @@ Every project that touches AI ends up rewriting the same wiring: parse SSE, norm
 | `hunyuan-image-tc3` | 腾讯混元生图 3.0 | TC3-signed async | `https://aiart.tencentcloudapi.com` | `apiKey: "SecretId:SecretKey"`. |
 | `zhipu-image` | 智谱 CogView | openai-compatible | `https://open.bigmodel.cn/api/paas/v4` | CogView-3 / 3-Plus. |
 
-Run `npx @s-aiproviders/cli list-presets --json` for the machine-readable catalogue, or `import { BUILTIN_PRESETS } from 's-aiproviders-core'`.
+Run `npx s-aiproviders list-presets --json` for the machine-readable catalogue, or `import { BUILTIN_PRESETS } from 's-aiproviders'`.
 
 > Adding a new OpenAI-compatible vendor is a one-line change: pick `--provider openai` and pass `--baseurl https://your-gateway/v1`. No code change needed.
 
@@ -90,9 +87,9 @@ Run `npx @s-aiproviders/cli list-presets --json` for the machine-readable catalo
 ### Try it without installing
 
 ```bash
-npx @s-aiproviders/cli list-presets
+npx s-aiproviders list-presets
 
-npx @s-aiproviders/cli chat \
+npx s-aiproviders chat \
   --provider tokenplan \
   --apikey "$TOKENPLAN_API_KEY" \
   --prompt "Explain Server-Sent Events in one line."
@@ -101,13 +98,13 @@ npx @s-aiproviders/cli chat \
 ### Install as a library
 
 ```bash
-pnpm add s-aiproviders-core
-# or: npm install s-aiproviders-core
-# or: yarn add s-aiproviders-core
+pnpm add s-aiproviders
+# or: npm install s-aiproviders
+# or: yarn add s-aiproviders
 ```
 
 ```ts
-import { createProvider } from 's-aiproviders-core';
+import { createProvider } from 's-aiproviders';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -131,16 +128,31 @@ for await (const ev of provider.chat(
 }
 ```
 
-## Four ways to consume
+### Generate an image (Node)
+
+```ts
+import { generateImage } from 's-aiproviders/image-gen';
+
+const { filePath } = await generateImage({
+  baseURL: 'https://api.openai.com/v1',
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: 'gpt-image-1',
+  prompt: 'a tiny ceramic capybara reading a book',
+  size: '1024x1024',
+  outputDir: './output',
+});
+console.log('saved:', filePath);
+```
+
+## Three ways to consume
 
 | # | Mode | Command | Best for |
 |---|---|---|---|
-| 1 | **Zero-install** | `npx @s-aiproviders/cli <cmd>` | One-off tasks, CI/CD, sandboxes |
-| 2 | **Global CLI** | `npm i -g @s-aiproviders/cli` then `s-aiproviders <cmd>` | Daily terminal workflows |
-| 3 | **Library import** | `pnpm add s-aiproviders-core` then `import { createProvider }` | Embedding AI into your own product (Electron / Node service / Vite) |
-| 4 | **AI-Agent Skill** | Symlink the installed `SKILL.md` into `~/.claude/skills/` | Claude Code / Cursor / Codebuddy auto-invocation |
+| 1 | **Zero-install** | `npx s-aiproviders <cmd>` | One-off tasks, CI/CD, sandboxes |
+| 2 | **Global CLI** | `npm i -g s-aiproviders` then `s-aiproviders <cmd>` | Daily terminal workflows |
+| 3 | **Library import** | `pnpm add s-aiproviders` then `import { createProvider }` | Embedding AI into your own product (Electron / Node service / Vite) |
 
-Step-by-step instructions for each, including how to wire the Skill into Claude Code, live in [`INSTALL.md`](./INSTALL.md).
+Use as an **AI-Agent Skill**: after install, the package ships `SKILL.md` and `references/`. Symlink them into your agent's skills directory (e.g. `~/.claude/skills/s-aiproviders/`) and the agent will be able to read the manifest and invoke the CLI on the user's behalf. Step-by-step instructions: [`INSTALL.md`](./INSTALL.md).
 
 ## Configuration
 
@@ -190,15 +202,21 @@ providers:
     api_key: sk-xxxxx
 ```
 
-Full schema and security notes: [`skill/references/config/extend-md-schema.md`](./skill/references/config/extend-md-schema.md).
+Full schema and security notes: [`references/config/extend-md-schema.md`](./references/config/extend-md-schema.md).
 
 ## API reference
 
-### Public surface — `s-aiproviders-core`
-
 All exports below are tree-shakable and ship complete `.d.ts` types.
 
-#### Types
+### Entry points
+
+| Specifier | Surface |
+|---|---|
+| `s-aiproviders` | Library API — types, provider factory, presets, capability helpers, SSE parser. **Browser-safe.** |
+| `s-aiproviders/image-gen` | `generateImage()` — Node-only (uses `node:crypto`, `node:fs`). |
+| `s-aiproviders/presets` | Just the preset catalogue, when you want to tree-shake more aggressively. |
+
+### Types
 
 | Symbol | Description |
 |---|---|
@@ -215,18 +233,18 @@ All exports below are tree-shakable and ship complete `.d.ts` types.
 | `ProviderKind` | `'chat' \| 'image'` |
 | `ProviderPreset` | Full preset shape (id, displayName, protocol, defaultBaseURL, builtinModels, …) |
 
-#### Provider factory
+### Provider factory
 
 | Symbol | Signature |
 |---|---|
 | `createProvider` | `(protocol, cfg) => IProvider` |
 | `OpenAICompatibleProvider` / `AnthropicProvider` / `GeminiProvider` | Direct class access if you need it |
 
-#### Presets
+### Presets
 
 `BUILTIN_PRESETS`, `CHAT_PRESETS`, `IMAGE_PRESETS`, `findPreset(id)`, plus every individual constant: `TOKENPLAN_PRESET`, `OPENAI_PRESET`, `ANTHROPIC_PRESET`, `GEMINI_PRESET`, `DEEPSEEK_PRESET`, `KIMI_PRESET`, `QWEN_PRESET`, `DOUBAO_PRESET`, `ZHIPU_PRESET`, `OPENAI_IMAGE_PRESET`, `HUNYUAN_IMAGE_PRESET`, `HUNYUAN_IMAGE_TC3_PRESET`, `ZHIPU_IMAGE_PRESET`.
 
-#### Capability helpers
+### Capability helpers
 
 | Symbol | Signature |
 |---|---|
@@ -234,13 +252,13 @@ All exports below are tree-shakable and ship complete `.d.ts` types.
 | `isMultimodal` | `(model) => boolean` |
 | `pickModel` | `(providers, { prefer, providerId? }) => PickedModel \| null` |
 
-#### SSE primitive (advanced)
+### SSE primitive (advanced)
 
 | Symbol | Signature |
 |---|---|
 | `parseSse` | `(stream: ReadableStream<Uint8Array>, signal: AbortSignal) => AsyncGenerator<SseEvent>` |
 
-#### `s-aiproviders-core/image-gen` (Node-only subpath)
+### `s-aiproviders/image-gen` (Node-only subpath)
 
 | Symbol | Signature |
 |---|---|
@@ -249,7 +267,7 @@ All exports below are tree-shakable and ship complete `.d.ts` types.
 | `ImageGenInput` | `{ protocol?; baseURL; apiKey; model; prompt; size; outputDir?; fileBaseName? }` |
 | `ImageGenResult` | `{ filePath; size; model; latencyMs; revisedPrompt? }` |
 
-### CLI reference — `@s-aiproviders/cli`
+### CLI — `s-aiproviders`
 
 ```
 s-aiproviders <command> [flags]
@@ -287,7 +305,7 @@ list-presets:
 
 Exit codes: `0` ok · `1` runtime error (network / HTTP / Tencent timeout) · `2` user error (bad flag, missing apiKey).
 
-Full integration recipes (Electron main process, multi-provider fallback, Node service patterns): [`skill/references/integration-as-library.md`](./skill/references/integration-as-library.md).
+Full integration recipes (Electron main process, multi-provider fallback, Node service patterns): [`references/integration-as-library.md`](./references/integration-as-library.md).
 
 ## Architecture
 
@@ -302,7 +320,7 @@ Full integration recipes (Electron main process, multi-provider fallback, Node s
             │                   │                 │
             ▼                   ▼                 ▼
 ┌──────────────────────────────────────────────────────────┐
-│                  s-aiproviders-core                      │
+│                     s-aiproviders                         │
 │                                                           │
 │  createProvider() ──► IProvider                          │
 │      │                  │                                 │
@@ -313,6 +331,7 @@ Full integration recipes (Electron main process, multi-provider fallback, Node s
 │                                                           │
 │  presets/{chat,image}.ts  · capabilities.ts (pickModel)  │
 │  sse.ts (shared SSE parser, fetch ReadableStream → events)│
+│  cli/ (chat | image | list-presets — wraps the API above) │
 └──────────────────────────────────────────────────────────┘
             │
             ▼
@@ -320,52 +339,41 @@ Full integration recipes (Electron main process, multi-provider fallback, Node s
    (no SDK dependencies, no axios, no OpenAI client)
 ```
 
-The core never reaches "outside" — no env vars, no `fs`, no globals — except in the explicitly Node-only `image-gen` subpath. This keeps the chat surface fully isomorphic between browser, Electron renderer, Cloudflare Workers, Vercel Edge, and any other JS runtime that exposes WHATWG `fetch`.
+The core never reaches "outside" — no env vars, no `fs`, no globals — except in the explicitly Node-only `image-gen` subpath and the CLI runtime. This keeps the chat surface fully isomorphic between browser, Electron renderer, Cloudflare Workers, Vercel Edge, and any other JS runtime that exposes WHATWG `fetch`.
 
 ## Repository layout
 
 ```
 S-AIProviders/
-├── packages/
-│   └── core/                          # s-aiproviders-core (the npm library)
-│       ├── src/
-│       │   ├── types.ts               # IProvider · ChatRequest · ChatChunk · ProviderPreset
-│       │   ├── sse.ts                 # Shared SSE parser
-│       │   ├── openai-compatible.ts   # Protocol implementation
-│       │   ├── anthropic.ts           # Protocol implementation
-│       │   ├── gemini.ts              # Protocol implementation
-│       │   ├── factory.ts             # createProvider(protocol, cfg)
-│       │   ├── capabilities.ts        # pickModel · modelHasCapability · isMultimodal
-│       │   ├── presets/{chat,image,index}.ts   # 9 chat + 4 image presets
-│       │   ├── image-gen/index.ts     # generateImage (Node-only subpath)
-│       │   └── index.ts               # public surface
-│       ├── package.json
-│       ├── tsconfig.json
-│       ├── README.md / README.zh.md
-│       └── dist/                      # build output (gitignored)
-├── skill/                             # @s-aiproviders/cli (the publishable CLI/Skill)
-│   ├── SKILL.md                       # Skill manifest read by AI agents
-│   ├── scripts/
-│   │   ├── main.ts                    # entry — chat/image/list subcommands
-│   │   ├── args.ts                    # zero-dep argv parser
-│   │   ├── config.ts                  # CLI > EXTEND.md > env > preset resolver
-│   │   └── commands/{chat,image,list}.ts
-│   ├── references/
-│   │   ├── config/extend-md-schema.md
-│   │   ├── config/first-time-setup.md
-│   │   ├── integration-as-library.md
-│   │   └── providers.md
-│   ├── package.json
-│   ├── tsconfig.json
-│   └── dist/                          # build output (gitignored)
+├── src/
+│   ├── index.ts                   # public library surface (browser-safe)
+│   ├── types.ts                   # IProvider · ChatRequest · ChatChunk · ProviderPreset
+│   ├── sse.ts                     # shared SSE parser
+│   ├── openai-compatible.ts       # protocol implementation
+│   ├── anthropic.ts               # protocol implementation
+│   ├── gemini.ts                  # protocol implementation
+│   ├── factory.ts                 # createProvider(protocol, cfg)
+│   ├── capabilities.ts            # pickModel · modelHasCapability · isMultimodal
+│   ├── presets/{chat,image,index}.ts   # 9 chat + 4 image presets
+│   ├── image-gen/index.ts         # generateImage (Node-only subpath)
+│   └── cli/                       # the s-aiproviders CLI (bin entry)
+│       ├── main.ts                #   entry — chat/image/list-presets
+│       ├── args.ts                #   zero-dep argv parser
+│       ├── config.ts              #   CLI > EXTEND.md > env > preset resolver
+│       └── commands/{chat,image,list}.ts
+├── references/                    # documentation read by the AI-Agent Skill
+│   ├── config/extend-md-schema.md
+│   ├── config/first-time-setup.md
+│   ├── integration-as-library.md
+│   └── providers.md
 ├── scripts/
-│   └── postbuild-shebang.cjs          # restores #!/usr/bin/env node + chmod +x
-├── INSTALL.md                         # end-user install guide (4 modes)
-├── MIGRATION-FROM-S-CONTENT.md        # migration recipe for the originating project
+│   └── postbuild-shebang.cjs      # restores #!/usr/bin/env node + chmod +x
+├── SKILL.md                       # Skill manifest read by AI agents
+├── INSTALL.md                     # end-user install guide
 ├── README.md / README.zh.md
-├── package.json                       # workspace root
-├── pnpm-workspace.yaml
-└── tsconfig.base.json
+├── package.json
+├── tsconfig.json
+└── dist/                          # build output (gitignored)
 ```
 
 ## Building from source
@@ -373,65 +381,55 @@ S-AIProviders/
 ### Requirements
 
 - Node.js **≥ 18.17** (uses native `fetch` and `ReadableStream`)
-- pnpm **≥ 9** (other package managers work but workflows below assume pnpm)
+- pnpm **≥ 9** (npm / yarn also work)
 
 ### Common workflows
 
 ```bash
-pnpm install                                    # install workspace deps
-pnpm -r build                                   # build core + cli
-pnpm -r typecheck                               # strict tsc --noEmit on every package
-pnpm --filter s-aiproviders-core clean         # remove dist
-pnpm --filter @s-aiproviders/cli  clean
+pnpm install         # install deps
+pnpm build           # tsc → dist/  +  restore shebang on dist/cli/main.js
+pnpm typecheck       # strict tsc --noEmit
+pnpm clean           # remove dist/
 
 # Run CLI in dev mode (no build needed, uses tsx)
-pnpm --filter @s-aiproviders/cli chat -- --provider tokenplan --prompt "hi"
-pnpm --filter @s-aiproviders/cli list -- --kind chat
+pnpm chat  -- --provider tokenplan --prompt "hi"
+pnpm image -- --provider openai-image --prompt "a cat" --size 1024x1024
+pnpm list  -- --kind chat
 
 # Run CLI from compiled output
-node skill/dist/main.js list-presets
+node dist/cli/main.js list-presets
 
-# Pack tarballs locally and verify them in a sandbox
-(cd packages/core && pnpm pack --pack-destination /tmp/saip)
-(cd skill         && pnpm pack --pack-destination /tmp/saip)
+# Pack the tarball locally and verify it in a sandbox
+pnpm pack --pack-destination /tmp/saip
 mkdir -p /tmp/saip-test && cd /tmp/saip-test && npm init -y >/dev/null
-npm install /tmp/saip/*.tgz
+npm install /tmp/saip/s-aiproviders-*.tgz
 npx s-aiproviders list-presets
 ```
 
-## Publishing
+### Publishing
 
-Both packages are published independently. The `prepublishOnly` hook ensures `dist/` is rebuilt; pnpm rewrites `workspace:*` to a concrete version at pack time.
+`prepublishOnly` runs `clean` + `build`. `publishConfig.registry` is locked to `https://registry.npmjs.org/` with `access: public`, so the package is always published to the public npm registry regardless of your local `~/.npmrc` mirror.
 
 ```bash
-# Core library
-cd packages/core
 pnpm build
-npm publish --access public
-
-# CLI / Skill
-cd skill
-pnpm build
-npm publish --access public
+npm publish        # uses publishConfig in package.json
 ```
-
-For a private registry, override per-package `publishConfig.registry` in each `package.json`.
 
 ## Comparison with similar tools
 
-| | S-AIProviders | `openai` SDK | `@anthropic-ai/sdk` | `langchain` | `ai` (Vercel) |
+| | s-aiproviders | `openai` SDK | `@anthropic-ai/sdk` | `langchain` | `ai` (Vercel) |
 |---|---|---|---|---|---|
 | Multi-provider | ✅ 13 presets, `pickModel` fallback | ❌ OpenAI only | ❌ Claude only | ✅ but heavyweight | ✅ |
 | Runtime deps | **0** | several | several | many | several |
 | Browser-safe core | ✅ | partial | partial | ❌ | ✅ |
 | Image generation | ✅ OpenAI + Tencent TC3 | ✅ OpenAI only | ❌ | ✅ | ❌ |
 | Streaming model | `AsyncIterable<ChatChunk>` | mixed (event emitters / streams) | iterators | callbacks / streams | hooks (React-centric) |
-| CLI | ✅ shipped | ❌ | ❌ | ❌ | ❌ |
+| CLI bundled | ✅ same install | ❌ | ❌ | ❌ | ❌ |
 | AI-Agent Skill bundled | ✅ | ❌ | ❌ | ❌ | ❌ |
 | TypeScript types | bundled | bundled | bundled | bundled | bundled |
-| Install size (core) | ~25 KB | ~hundreds of KB | ~hundreds of KB | MBs | hundreds of KB |
+| Install size | ~60 KB tarball | hundreds of KB | hundreds of KB | MBs | hundreds of KB |
 
-S-AIProviders is intentionally minimal — it does not aim to replace `langchain`'s agent loops or `ai`'s React Server Component bindings. It is the layer **below** those frameworks: a portable wire-format adapter that you can use directly, or that you can build a heavier framework on top of.
+s-aiproviders is intentionally minimal — it does not aim to replace `langchain`'s agent loops or `ai`'s React Server Component bindings. It is the layer **below** those frameworks: a portable wire-format adapter that you can use directly, or that you can build a heavier framework on top of.
 
 ## FAQ
 
@@ -439,13 +437,13 @@ S-AIProviders is intentionally minimal — it does not aim to replace `langchain
 Not yet. The `chat()` shape is text-only. Tool calling is on the roadmap behind a `tools` field in `ChatRequest`. Open an issue if you need it sooner.
 
 **Q: Why not just use the official SDKs?**
-The official SDKs each pull in their own HTTP client, their own retry middleware, and their own streaming abstraction. Stacking three of them in the same process bloats install size and produces three different error shapes. S-AIProviders unifies all three behind one 25 KB ESM module with the platform's native `fetch`.
+The official SDKs each pull in their own HTTP client, their own retry middleware, and their own streaming abstraction. Stacking three of them in the same process bloats install size and produces three different error shapes. s-aiproviders unifies all three behind one small ESM module that uses the platform's native `fetch`.
 
 **Q: Can I add a provider that isn't in the catalogue?**
-Yes — if it speaks the OpenAI `/chat/completions` wire format, just pass `--provider openai --baseurl https://your-gateway/v1`. If it's a fundamentally different protocol, implement `IProvider` and add it to the factory; we welcome PRs.
+Yes — if it speaks the OpenAI `/chat/completions` wire format, just pass `--provider openai --baseurl https://your-gateway/v1`. If it's a fundamentally different protocol, implement `IProvider` and add it to the factory; PRs welcome.
 
 **Q: Is the image-gen module browser-safe?**
-No. It uses `node:crypto` for TC3 signing and `node:fs` for output. The package's main entry intentionally does not re-export it; reach for `s-aiproviders-core/image-gen`. Building this in the browser is a Vite/Webpack hint to externalise.
+No. It uses `node:crypto` for TC3 signing and `node:fs` for output. The package's main entry intentionally does not re-export it; reach for `s-aiproviders/image-gen`. In a Vite/Webpack browser build this is a hint to externalise — or simply don't import that subpath from renderer code.
 
 **Q: How does cancellation work?**
 Pass an `AbortSignal` to `chat()`. The signal is forwarded to `fetch` and to the SSE reader, so an abort severs both the HTTP socket and the iterator. The CLI maps `SIGINT` (Ctrl-C) to the same signal.
@@ -458,8 +456,8 @@ The chat core works on any runtime exposing WHATWG `fetch` + `ReadableStream` + 
 
 ## Versioning
 
-Both packages follow semantic versioning starting at `0.1.x`. While the version is `0.x`, breaking changes may land between minor releases (and will always be called out in the CHANGELOG). The first `1.0.0` will lock the public API.
+s-aiproviders follows semantic versioning starting at `0.1.x`. While the version is `0.x`, breaking changes may land between minor releases (and will always be called out in the CHANGELOG). The first `1.0.0` will lock the public API.
 
 ## License
 
-[MIT](./LICENSE) © S-AIProviders contributors.
+[MIT](./LICENSE) © s-aiproviders contributors.

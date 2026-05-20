@@ -1,17 +1,17 @@
 ---
 name: s-aiproviders
 description: "Unified AI provider abstraction. One Skill, every model — OpenAI / Anthropic / Gemini / DeepSeek / Kimi / Qwen / Doubao / Zhipu / Tencent Token Plan / Hunyuan / DALL·E / CogView. Streaming chat, image generation, model auto-pick. Use this Skill whenever the user wants to call an LLM or generate an image without wiring up a fresh SDK in their project."
-version: 0.1.0
+version: 0.1.1
 metadata:
   homepage: https://github.com/lisiyuan0828/S-AIProviders
+  npm: https://www.npmjs.com/package/s-aiproviders
   requires:
     anyBins:
-      - tsx
-      - bun
+      - s-aiproviders
       - npx
 ---
 
-# S-AIProviders
+# s-aiproviders
 
 Single Skill that gives any project a working AI integration:
 
@@ -21,9 +21,9 @@ Single Skill that gives any project a working AI integration:
 | **Image generation** | OpenAI Images (DALL·E / gpt-image-1 / CogView / Hunyuan@lkeap) and Tencent Cloud TC3 (混元生图 3.0) |
 | **Built-in presets** | 9 chat + 4 image providers (Token Plan / OpenAI / Anthropic / Gemini / DeepSeek / Kimi / Qwen / Doubao / Zhipu / DALL·E / Hunyuan / CogView) |
 | **Model auto-pick** | `pickModel(prefer: ['image-gen','vision','text'])` for fallback chains |
-| **Two consumption modes** | (a) **Skill CLI** — run scripts directly. (b) **npm package `s-aiproviders-core`** — `import` it into any TS/JS project. |
+| **Two consumption modes** | (a) **CLI** — `npx s-aiproviders <cmd>` or globally installed `s-aiproviders`. (b) **Library** — `import` from the same npm package `s-aiproviders` into any TS/JS project. |
 
-> Two-track design: when the user just wants to "run a thing" (one-off scripts, automations, terminal pipelines) → use the **Skill CLI**. When the user is integrating into a real codebase (Electron / Node service / Vite app) → install the **npm package** instead. Both share the same provider catalogue.
+> One package, two faces: when the user just wants to "run a thing" (one-off scripts, automations, terminal pipelines) → use the **CLI**. When the user is integrating into a real codebase (Electron / Node service / Vite app) → `import` it as a library. Both ship inside the same `s-aiproviders` install.
 
 ---
 
@@ -33,48 +33,50 @@ Before generating any code, decide which mode the user needs. Use these heuristi
 
 | Signal | Mode |
 |---|---|
-| User has an active TS/JS project (`package.json` present) and asks "add AI to my project" | **npm package** — install `s-aiproviders-core`, follow `references/integration-as-library.md` |
-| User asks for a one-off LLM call, batch script, automation, terminal pipeline, `cron` task | **Skill CLI** — run `scripts/main.ts` |
+| User has an active TS/JS project (`package.json` present) and asks "add AI to my project" | **Library** — `pnpm add s-aiproviders`, then follow `references/integration-as-library.md` |
+| User asks for a one-off LLM call, batch script, automation, terminal pipeline, `cron` task | **CLI** — `npx s-aiproviders <cmd>` |
 | Ambiguous | Ask user: "Do you want me to wire this into your project (library), or just run it once (CLI)?" |
 
 If `EXTEND.md` is missing → run `references/config/first-time-setup.md` to collect provider + apiKey + default model, then write `~/.s-aiproviders/EXTEND.md`.
 
 ---
 
-## Skill CLI usage
+## CLI usage
 
-`{baseDir}` = this `SKILL.md`'s directory. Resolve runner: prefer `tsx`; else `bun`; else `npx -y tsx`.
+Resolve the runner: prefer the `s-aiproviders` bin on `PATH` (after `npm i -g s-aiproviders` or `pnpm add s-aiproviders` in the current project); otherwise fall back to `npx -y s-aiproviders` so the package is fetched on demand.
 
 ```bash
+RUNNER="s-aiproviders"   # or: RUNNER="npx -y s-aiproviders"
+
 # List all built-in providers
-${RUNNER} ${baseDir}/scripts/main.ts list-presets
-${RUNNER} ${baseDir}/scripts/main.ts list-presets --kind image --json
+${RUNNER} list-presets
+${RUNNER} list-presets --kind image --json
 
 # Chat (streams to stdout)
-${RUNNER} ${baseDir}/scripts/main.ts chat \
+${RUNNER} chat \
   --provider tokenplan \
   --apikey "$TOKENPLAN_API_KEY" \
   --model tc-code-latest \
   --prompt "用一句话解释 SSE 协议"
 
 # Chat from file + system prompt + JSON output
-${RUNNER} ${baseDir}/scripts/main.ts chat \
+${RUNNER} chat \
   --provider anthropic --model claude-sonnet-4 \
   --system "You are a senior TS engineer." \
   --promptfile review.md \
   --json
 
 # Pipe stdin
-echo "summarise this" | ${RUNNER} ${baseDir}/scripts/main.ts chat --provider openai
+echo "summarise this" | ${RUNNER} chat --provider openai
 
 # Image
-${RUNNER} ${baseDir}/scripts/main.ts image \
+${RUNNER} image \
   --provider openai-image --model dall-e-3 \
   --prompt "a minimalist cat icon, flat" \
   --size 1024x1024 --output ./out
 
 # Image via Tencent Cloud TC3 (apiKey = "SecretId:SecretKey")
-${RUNNER} ${baseDir}/scripts/main.ts image \
+${RUNNER} image \
   --provider hunyuan-image-tc3 \
   --apikey "$TENCENTCLOUD_SECRET_ID:$TENCENTCLOUD_SECRET_KEY" \
   --prompt "极简风格的猫图标" \
@@ -141,19 +143,19 @@ Do **not** fire when the user only wants a one-off completion against an SDK the
 
 ---
 
-## npm package mode (when integrating into a project)
+## Library mode (when integrating into a project)
 
 Install:
 
 ```bash
-pnpm add s-aiproviders-core
-# or: npm i s-aiproviders-core / yarn add s-aiproviders-core
+pnpm add s-aiproviders
+# or: npm i s-aiproviders / yarn add s-aiproviders
 ```
 
 Minimal chat:
 
 ```ts
-import { createProvider, TOKENPLAN_PRESET } from 's-aiproviders-core';
+import { createProvider, TOKENPLAN_PRESET } from 's-aiproviders';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.TOKENPLAN_API_KEY!,
@@ -173,7 +175,7 @@ for await (const ev of provider.chat(
 Image generation (Node only — uses `node:crypto` / `node:fs`):
 
 ```ts
-import { generateImage } from 's-aiproviders-core/image-gen';
+import { generateImage } from 's-aiproviders/image-gen';
 
 const result = await generateImage({
   baseURL: 'https://api.openai.com/v1',

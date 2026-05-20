@@ -1,8 +1,7 @@
 {
   "name": "s-aiproviders",
-  "version": "0.1.0",
-  "private": true,
-  "description": "Unified AI provider abstraction (chat + image-gen) — usable as an npm package or as a portable Skill / CLI.",
+  "version": "0.1.1",
+  "description": "Unified AI provider toolkit: OpenAI-compatible / Anthropic / Gemini chat streaming + image generation (OpenAI-compatible & Tencent Cloud TC3). Ships both a programmatic API and a CLI.",
   "license": "MIT",
   "author": "lisiyuan0828",
   "homepage": "https://github.com/lisiyuan0828/S-AIProviders#readme",
@@ -14,22 +13,75 @@
     "url": "https://github.com/lisiyuan0828/S-AIProviders/issues"
   },
   "type": "module",
-  "workspaces": [
-    "packages/*",
-    "skill"
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "s-aiproviders": "./dist/cli/main.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./image-gen": {
+      "types": "./dist/image-gen/index.d.ts",
+      "import": "./dist/image-gen/index.js"
+    },
+    "./presets": {
+      "types": "./dist/presets/index.d.ts",
+      "import": "./dist/presets/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "SKILL.md",
+    "references",
+    "README.md",
+    "README.zh.md",
+    "CHANGELOG.md",
+    "CHANGELOG.zh.md",
+    "LICENSE"
   ],
   "scripts": {
-    "build": "pnpm -r build",
-    "typecheck": "pnpm -r typecheck",
-    "clean": "pnpm -r clean",
-    "skill:chat": "tsx skill/scripts/main.ts chat",
-    "skill:image": "tsx skill/scripts/main.ts image",
-    "skill:list": "tsx skill/scripts/main.ts list-presets"
+    "build": "tsc -p tsconfig.json && node scripts/postbuild-shebang.cjs dist/cli/main.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "rm -rf dist",
+    "chat": "tsx src/cli/main.ts chat",
+    "image": "tsx src/cli/main.ts image",
+    "list": "tsx src/cli/main.ts list-presets",
+    "prepublishOnly": "pnpm clean && pnpm build"
   },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "keywords": [
+    "ai",
+    "llm",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "deepseek",
+    "kimi",
+    "qwen",
+    "doubao",
+    "zhipu",
+    "tokenplan",
+    "image-generation",
+    "streaming",
+    "sse",
+    "cli",
+    "skill"
+  ],
   "devDependencies": {
     "@types/node": "^22.0.0",
     "tsx": "^4.19.0",
     "typescript": "^5.7.0"
-  },
-  "packageManager": "pnpm@9.0.0"
+  }
 }

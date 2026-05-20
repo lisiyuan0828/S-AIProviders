@@ -2,7 +2,7 @@
  * `list-presets` subcommand — dump the built-in preset catalogue.
  */
 
-import { BUILTIN_PRESETS } from 's-aiproviders-core';
+import { BUILTIN_PRESETS } from '../../index.js';
 import { type ParsedArgs, getBool, getStr } from '../args.js';
 
 export function runList(args: ParsedArgs): number {

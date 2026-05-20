@@ -33,7 +33,7 @@ import {
   findPreset,
   type ProviderPreset,
   type ProviderProtocol,
-} from 's-aiproviders-core';
+} from '../index.js';
 
 import type { ParsedArgs } from './args.js';
 import { getStr } from './args.js';

@@ -1,4 +1,4 @@
-# Library integration (`s-aiproviders-core`)
+# Library integration (`s-aiproviders`)
 
 Use this guide when the user wants AI capabilities embedded into their own
 codebase — not invoked via Skill CLI.
@@ -6,18 +6,18 @@ codebase — not invoked via Skill CLI.
 ## Install
 
 ```bash
-pnpm add s-aiproviders-core
+pnpm add s-aiproviders
 # or
-npm install s-aiproviders-core
+npm install s-aiproviders
 ```
 
 The package ships pure ESM with TypeScript types. Browser-safe entry:
-`s-aiproviders-core`. Node-only entry: `s-aiproviders-core/image-gen`.
+`s-aiproviders`. Node-only entry: `s-aiproviders/image-gen`.
 
 ## Recipe 1 — minimal streaming chat
 
 ```ts
-import { createProvider } from 's-aiproviders-core';
+import { createProvider } from 's-aiproviders';
 
 const provider = createProvider('openai-compatible', {
   apiKey: process.env.OPENAI_API_KEY!,
@@ -46,7 +46,7 @@ console.log(full);
 ## Recipe 2 — Anthropic / Gemini
 
 ```ts
-import { createProvider } from 's-aiproviders-core';
+import { createProvider } from 's-aiproviders';
 
 const claude = createProvider('anthropic', {
   apiKey: process.env.ANTHROPIC_API_KEY!,
@@ -64,7 +64,7 @@ The `chat()` shape is identical across all three protocols.
 ## Recipe 3 — multi-provider fallback with `pickModel`
 
 ```ts
-import { pickModel, type ProviderLike } from 's-aiproviders-core';
+import { pickModel, type ProviderLike } from 's-aiproviders';
 
 const inventory: ProviderLike[] = [
   { id: 'openai',   models: [{ id: 'gpt-4o-mini', label: 'GPT-4o mini', capabilities: ['text', 'vision'] }] },
@@ -78,7 +78,7 @@ const picked = pickModel(inventory, { prefer: ['vision', 'text'] });
 ## Recipe 4 — image generation (Node)
 
 ```ts
-import { generateImage } from 's-aiproviders-core/image-gen';
+import { generateImage } from 's-aiproviders/image-gen';
 
 const result = await generateImage({
   baseURL: 'https://api.openai.com/v1',
@@ -96,11 +96,11 @@ For Tencent Cloud TC3 (混元生图 3.0), pass `apiKey: "SecretId:SecretKey"` an
 
 ## Recipe 5 — Electron main-process integration
 
-`packages/core` is plain ESM. In an Electron main process:
+`s-aiproviders` is plain ESM. In an Electron main process:
 
 ```ts
 // main/services/ai.service.ts
-import { createProvider } from 's-aiproviders-core';
+import { createProvider } from 's-aiproviders';
 import { ipcMain } from 'electron';
 
 ipcMain.handle('chat:send', async (_evt, args: { model: string; prompt: string; apiKey: string }) => {
@@ -124,7 +124,7 @@ with `webContents.send('chat:chunk', ev)` per delta event.
 ## Recipe 6 — typed presets (UI quick-add)
 
 ```ts
-import { CHAT_PRESETS, IMAGE_PRESETS } from 's-aiproviders-core';
+import { CHAT_PRESETS, IMAGE_PRESETS } from 's-aiproviders';
 
 // Render a "Quick add provider" dropdown:
 CHAT_PRESETS.forEach((p) => {

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 /**
- * @s-aiproviders/cli — entry point.
+ * s-aiproviders — CLI entry point.
  *
  * Subcommands:
  *   chat          stream a chat completion to stdout
  *   image         generate an image and save to disk
  *   list-presets  dump the built-in provider catalogue
  *
- * Run with: tsx skill/scripts/main.ts <cmd> [flags]
- *      or : bun  skill/scripts/main.ts <cmd> [flags]
+ * Run with the installed bin (`s-aiproviders`), `npx s-aiproviders`,
+ * or in dev mode from this repo: `pnpm chat -- <flags>` (uses tsx on src/cli/main.ts).
  */
 
 import { parseArgs } from './args.js';
@@ -41,12 +41,12 @@ async function main(): Promise<number> {
 }
 
 function printUsage(): void {
-  console.log(`S-AIProviders — unified AI provider CLI
+  console.log(`s-aiproviders — unified AI provider CLI
 
 Usage:
-  npx s-aiproviders <command> [flags]
-  s-aiproviders <command> [flags]                # if installed globally
-  tsx skill/scripts/main.ts <command> [flags]    # dev mode (from this repo)
+  s-aiproviders <command> [flags]                # if installed (locally or globally)
+  npx s-aiproviders <command> [flags]            # zero-install via npx
+  tsx src/cli/main.ts <command> [flags]          # dev mode (from this repo)
 
 Commands:
   chat              Stream a chat completion (text)
