@@ -51,7 +51,9 @@
     "chat": "tsx src/cli/main.ts chat",
     "image": "tsx src/cli/main.ts image",
     "list": "tsx src/cli/main.ts list-presets",
-    "prepublishOnly": "pnpm clean && pnpm build"
+    "version:check": "node scripts/bump-version.cjs --check",
+    "version:bump": "node scripts/bump-version.cjs",
+    "prepublishOnly": "pnpm clean && pnpm build && pnpm version:check"
   },
   "engines": {
     "node": ">=18.17"
